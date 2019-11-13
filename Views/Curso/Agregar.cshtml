@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "AgregarCurso";
+}
+
+@section Styles {
+    <link href="~/css/formulario.css" rel="stylesheet" />
+}
+
+<h2>Agregar Curso</h2>
+
+
+@using (Html.BeginForm("Guardar", "Curso", FormMethod.Post))
+{
+
+    <p>Id</p>
+    <input type="text" name="Id" placeholder="Id del curso">
+
+    <p>Nombre</p>
+    <input type="text" name="Nombre" placeholder="Nombre del curso">
+
+    <div>
+        <input type="submit" value="Agregar Curso">
+    </div>
+}

@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "Editar";
+}
+@model FVSystem.Models.Estudiante
+
+@section Styles {
+    <link href="~/css/formulario.css" rel="stylesheet" />
+}
+
+
+<h2>Editar</h2>
+
+@using (Html.BeginForm("Actualizar", "Estudiantes", FormMethod.Post))
+{
+
+    <div>Nombre:</div>
+
+
+    <input type="text" name="Nombre" value="@Model.Nombre">
+
+
+    <div>Apellido:</div>
+
+
+    <input type="text" name="Apellido" value="@Model.Apellido">
+
+    <div>id: </div>
+    <input type="number" name="Id" value="@Model.Id">
+    <div>Cedula</div>
+    <input type="number" name="Cedula" value="@Model.Cedula">
+    <div>Fecha de nacimiento</div>
+    <input type="date" name="FechaNacimiento" value="@Model.FechaNacimiento.ToString("yyyy-MM-dd")">
+
+    <input type="submit" value="Agregar">
+}
+
+
+
+
+
+

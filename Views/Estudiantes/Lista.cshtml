@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "Lista de Estudiantes";
+}
+
+@section Styles {
+    <link href="~/css/estudiantes.css" rel="stylesheet" />
+    <link href="~/css/listas.css" rel="stylesheet" />
+}
+
+@section script {
+    <script src="~/js/Confirmacion.js"></script>
+}
+
+<h2 class="nommbre">Lista de Estudiantes</h2>
+
+<table class="col-12">
+
+    @foreach (var estudiante in Model)
+    {
+        <tr class="row lista">
+            <td class="col-9">@estudiante.Nombre @estudiante.Apellido</td>
+            <td class="col-sm"> @Html.ActionLink("Editar", "Editar", "Estudiantes", new { id = @estudiante.Id }, new { miAtributo = "valor1", @class = "btn btn-danger" }) </td>
+            <td class="col-sm">
+                <button type="button" class="btn btn-danger" onclick="borrarEstudiante(@estudiante.Id)">
+                    Borrar
+                </button>
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div>
+    @Html.ActionLink("Agregar nuevo estudiante", "Agregar", "Estudiantes", null, new { miAtributo = "valor1", @class = "btn btn-danger" })
+</div>

@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "Nota";
+}
+
+@section Styles {
+    <link href="~/css/listas.css" rel="stylesheet" />
+}
+
+<h2>Notas</h2>
+
+<table class="col-md-12">
+
+
+    @foreach (var nota in Model)
+    {
+        <tr class="row lista">
+            <td class="col-md-4">@nota.Modulo.Nombre</td>
+            <td class="col-md-4">@nota.Estudiante.Nombre @nota.Estudiante.Apellido</td>
+            <td class="col-md-2">@nota.Nota</td>
+        </tr>
+    }
+
+</table>
+

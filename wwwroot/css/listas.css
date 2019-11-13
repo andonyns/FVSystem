@@ -1,0 +1,19 @@
+﻿.lista {
+    font: 200 18px/1.5 Helvetica, Verdana, sans-serif;
+    border-bottom: 1px solid #ff006e;
+    text-decoration: none;
+    color: maroon;
+    -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+    -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+    -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+    -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+}
+
+    .lista:last-child {
+        border: none;
+    }
+
+    .lista:hover {
+        font-size: 25px;
+        background: #fff0f0;
+    }

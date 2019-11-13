@@ -1,0 +1,22 @@
+﻿@import url('https://fonts.googleapis.com/css?family=Schoolbell&display=swap');
+
+.principal {
+    display: grid;
+    justify-content: center;
+    margin: 10% 0;
+}
+
+.titulo {
+    text-align: center;
+    font-family: 'Schoolbell', cursive;
+}
+
+.descripcion {
+    text-align: center;
+    font-style: italic;
+}
+
+.sedes {
+    display: grid;
+    justify-content: center;
+}

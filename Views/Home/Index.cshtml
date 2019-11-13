@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Fundavida";
+}
+
+@section Styles {
+    <link href="~/css/home.css" rel="stylesheet" />
+}
+
+<div class="principal">
+    <img src="~/img/Logo.png" alt="Fundavida" />
+    <h1 class="titulo">FVSystem</h1>
+    <p class="descripcion">Sistema Interno para manejo de cursos</p>
+</div>
+
+
+<h2 class="sedes">Sedes</h2>
+
+<table class="mx-auto">
+    @foreach (var sede in Model)
+    {
+        <tr class="row lista">
+            <td class="col-6">@sede.Nombre</td>
+            <td class="col-6">
+                @Html.ActionLink("Ver Cursos", "CursosPorSede", "Curso", new { sede = @sede.Id }, null)
+            </td>
+        </tr>
+    }
+
+</table>
+
+
