@@ -7,11 +7,12 @@
 @section Styles {
     <link href="~/css/formulario.css" rel="stylesheet" />
 }
-<h2>Editar</h2>
+<div class="formulario">
+    <h2>Editar</h2>
 
 
 
-@using (Html.BeginForm("Actualizar", "Modulo", FormMethod.Post))
+    @using (Html.BeginForm("Actualizar", "Modulo", FormMethod.Post))
 {
 
     <div>Id:</div>
@@ -38,4 +39,7 @@
     <input type="text" name="IdCurso" value="@Model.IdCurso">
 
     <input type="submit" value="Guardar">
+
 }
+
+</div>
