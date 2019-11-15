@@ -6,8 +6,8 @@
 @section Styles {
     <link href="~/css/formulario.css" rel="stylesheet" />
 }
-
-<h2>Agregar Curso</h2>
+<div class="formulario"> 
+<h2>Editar Curso</h2>
 
 
 @using (Html.BeginForm("Guardar", "Curso", FormMethod.Post))
@@ -22,3 +22,4 @@
         <input type="submit" value="Agregar Curso">
     </div>
 }
+</div>
