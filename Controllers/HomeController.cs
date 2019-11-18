@@ -1,25 +1,30 @@
-﻿using FVSystem.Repository;
+﻿using System;
+using System.Data;
+using FVSystem.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
+
+
 
 namespace FVSystem.Controllers
 {
     public class HomeController : Controller
     {
+        private IConfiguration configuration;
         private SedesRepository repository;
-        public HomeController()
+        public HomeController(IConfiguration config)
         {
+            configuration = config;
             repository = new SedesRepository();
         }
-        // GET: Home
+
         public ActionResult Index()
         {
             var sedes = repository.GetSedes();
 
             return View(sedes);
-        
+
         }
-
-
-
     }
 }

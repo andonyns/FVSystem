@@ -1,17 +1,18 @@
 ﻿using FVSystem.Models;
 using FVSystem.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System.Net;
 
 namespace FVSystem.Controllers
 {
     public class EstudiantesController : Controller
     {
-
         private EstudiantesRepository repository;
-        public EstudiantesController()
+
+        public EstudiantesController(IConfiguration config)
         {
-            repository = new EstudiantesRepository();
+            repository = new EstudiantesRepository(config);
         }
 
         public ActionResult Index()

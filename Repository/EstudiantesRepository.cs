@@ -1,7 +1,10 @@
 ﻿using FVSystem.Models;
+using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Data.SQLite;
 using System.IO;
 
@@ -9,80 +12,75 @@ namespace FVSystem.Repository
 {
     public class EstudiantesRepository
     {
+        private IConfiguration configuration;
+        private string connectionString;
+
+        public EstudiantesRepository(IConfiguration config)
+        {
+            configuration = config;
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
+
         public List<Estudiante> ObtenerEstudiantes()
         {
-            string relativePath = @"Database\FVSystem.db";
-            string currentPath;
-            string absolutePath;
-            string connectionString;
-
-            currentPath = AppDomain.CurrentDomain.BaseDirectory;
-            absolutePath = System.IO.Path.Combine(currentPath, relativePath);
-
-            connectionString = string.Format("DataSource={0}", absolutePath);
-
-            List<Estudiante> sedes = new List<Estudiante>();
-            using (SQLiteConnection connect = new SQLiteConnection(connectionString))
+            List<Estudiante> estudiantes = new List<Estudiante>();
+            using (var connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
-                using (SQLiteCommand command = connect.CreateCommand())
+                using (MySqlCommand command = connect.CreateCommand())
                 {
 
                     command.CommandText = @"SELECT *" +
-                                        "FROM Estudiantes";
+                                        "FROM personas " +
+                                        "WHERE identificacion is not null " +
+                                        "AND fecha_nacimiento is not null";
                     command.CommandType = CommandType.Text;
-                    SQLiteDataReader reader = command.ExecuteReader();
+                    MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        sedes.Add(new Estudiante()
+                        estudiantes.Add(new Estudiante()
                         {
-                            Id = Convert.ToInt32(reader["Id"]),
-                            Cedula = Convert.ToString(reader["Cedula"]),
-                            Nombre = Convert.ToString(reader["Nombre"]),
-                            Apellido = Convert.ToString(reader["Apellido"]),
-                            FechaNacimiento = Convert.ToDateTime(reader["FechaNacimiento"]),
+                            Id = Convert.ToInt32(reader["id"]),
+                            Cedula = Convert.ToString(reader["identificacion"]),
+                            Nombre = Convert.ToString(reader["nombre_completo"]),
+                            Apellidos = Convert.ToString(reader["apellidos"]),
+                            Residencia = Convert.ToString(reader["residencia"]),
+                            Sexo = Convert.ToString(reader["sexo"]),
+                            FechaNacimiento = Convert.ToDateTime(reader["fecha_nacimiento"]),
                         });
                     }
 
                 }
             }
-            return sedes;
+            return estudiantes;
         }
 
         public Estudiante ObtenerEstudiante(string id)
         {
-            string relativePath = @"Database\FVSystem.db";
-            string currentPath;
-            string absolutePath;
-            string connectionString;
-
-            currentPath = AppDomain.CurrentDomain.BaseDirectory;
-            absolutePath = System.IO.Path.Combine(currentPath, relativePath);
-
-            connectionString = string.Format("DataSource={0}", absolutePath);
-
             Estudiante estudiante = new Estudiante();
-            using (SQLiteConnection connect = new SQLiteConnection(connectionString))
+            using (var connect = new MySqlConnection(configuration.GetConnectionString("DefaultConnection")))
             {
                 connect.Open();
-                using (SQLiteCommand command = connect.CreateCommand())
+                using (MySqlCommand command = connect.CreateCommand())
                 {
 
                     command.CommandText = @"SELECT *" +
-                                        "FROM Estudiantes " +
-                                        "WHERE Id = @Id";
+                                        "FROM personas " +
+                                        "WHERE id = @Id";
                     command.Parameters.AddWithValue("@Id", id);
                     command.CommandType = CommandType.Text;
-                    SQLiteDataReader reader = command.ExecuteReader();
+                    MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
                         estudiante = new Estudiante()
                         {
-                            Id = Convert.ToInt32(reader["Id"]),
-                            Cedula = Convert.ToString(reader["Cedula"]),
-                            Nombre = Convert.ToString(reader["Nombre"]),
-                            Apellido = Convert.ToString(reader["Apellido"]),
-                            FechaNacimiento = Convert.ToDateTime(reader["FechaNacimiento"]),
+                            Id = Convert.ToInt32(reader["id"]),
+                            Cedula = Convert.ToString(reader["identificacion"]),
+                            Nombre = Convert.ToString(reader["nombre_completo"]),
+                            Apellidos = Convert.ToString(reader["apellidos"]),
+                            Residencia = Convert.ToString(reader["residencia"]),
+                            Sexo = Convert.ToString(reader["sexo"]),
+                            FechaNacimiento = Convert.ToDateTime(reader["fecha_nacimiento"]),
                         };
                     }
 
@@ -93,21 +91,11 @@ namespace FVSystem.Repository
 
         public Estudiante ObtenerEstudiantesPorCurso(string cursoId)
         {
-            string relativePath = @"Database\FVSystem.db";
-            string currentPath;
-            string absolutePath;
-            string connectionString;
-
-            currentPath = AppDomain.CurrentDomain.BaseDirectory;
-            absolutePath = System.IO.Path.Combine(currentPath, relativePath);
-
-            connectionString = string.Format("DataSource={0}", absolutePath);
-
             Estudiante estudiante = new Estudiante();
-            using (SQLiteConnection connect = new SQLiteConnection(connectionString))
+            using (MySqlConnection connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
-                using (SQLiteCommand command = connect.CreateCommand())
+                using (MySqlCommand command = connect.CreateCommand())
                 {
 
                     command.CommandText = @"SELECT E.* " +
@@ -117,16 +105,18 @@ namespace FVSystem.Repository
                                         "WHERE EC.IdCurso=1";
                     command.Parameters.AddWithValue("@Id", cursoId);
                     command.CommandType = CommandType.Text;
-                    SQLiteDataReader reader = command.ExecuteReader();
+                    MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
                         estudiante = new Estudiante()
                         {
-                            Id = Convert.ToInt32(reader["Id"]),
-                            Cedula = Convert.ToString(reader["Cedula"]),
-                            Nombre = Convert.ToString(reader["Nombre"]),
-                            Apellido = Convert.ToString(reader["Apellido"]),
-                            FechaNacimiento = Convert.ToDateTime(reader["FechaNacimiento"]),
+                            Id = Convert.ToInt32(reader["id"]),
+                            Cedula = Convert.ToString(reader["identificacion"]),
+                            Nombre = Convert.ToString(reader["nombre_completo"]),
+                            Apellidos = Convert.ToString(reader["apellidos"]),
+                            Residencia = Convert.ToString(reader["residencia"]),
+                            Sexo = Convert.ToString(reader["sexo"]),
+                            FechaNacimiento = Convert.ToDateTime(reader["fecha_nacimiento"]),
                         };
                     }
 
@@ -137,30 +127,24 @@ namespace FVSystem.Repository
 
         public bool InsertarEstudiante(Estudiante estudiante)
         {
-            string relativePath = @"Database\FVSystem.db";
-            string currentPath;
-            string absolutePath;
-            string connectionString;
-
-            currentPath = AppDomain.CurrentDomain.BaseDirectory;
-            absolutePath = Path.Combine(currentPath, relativePath);
-
-            connectionString = string.Format("DataSource={0}", absolutePath);
-
-            using (SQLiteConnection connect = new SQLiteConnection(connectionString))
+            using (MySqlConnection connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
 
 
-                using (SQLiteCommand command = new SQLiteCommand(
-                                                        "INSERT INTO Estudiantes(Id,Nombre,Apellido,FechaNacimiento,Cedula) " +
-                                                        "VALUES(@Id,@Nombre,@Apellido,@FechaNacimiento,@Cedula)", connect))
+                using (MySqlCommand command = new MySqlCommand(
+                                                        "INSERT INTO " +
+                                                        "Estudiantes(id, nombre_completo, apellidos, fecha_nacimiento, identificacion, sexo, residencia) " +
+                                                        "VALUES(@Id, @Nombre, @Apellido, @FechaNacimiento, @Cedula, @Sexo, @Residencia)", connect))
                 {
                     command.Parameters.AddWithValue("@Id", estudiante.Id);
                     command.Parameters.AddWithValue("@Nombre", estudiante.Nombre);
-                    command.Parameters.AddWithValue("@Apellido", estudiante.Apellido);
+                    command.Parameters.AddWithValue("@Cedula", estudiante.Apellidos);
                     command.Parameters.AddWithValue("@FechaNacimiento", estudiante.FechaNacimiento);
                     command.Parameters.AddWithValue("@Cedula", estudiante.Cedula);
+                    command.Parameters.AddWithValue("@Sexo", estudiante.Sexo);
+                    command.Parameters.AddWithValue("@Residencia", estudiante.Residencia);
+
                     try
                     {
                         command.ExecuteNonQuery();
@@ -189,19 +173,19 @@ namespace FVSystem.Repository
 
             connectionString = string.Format("DataSource={0}", absolutePath);
 
-            using (SQLiteConnection connect = new SQLiteConnection(connectionString))
+            using (MySqlConnection connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
 
 
-                using (SQLiteCommand command = new SQLiteCommand(
+                using (MySqlCommand command = new MySqlCommand(
                                                         "UPDATE Estudiantes " +
                                                         "SET Nombre = @Nombre, Apellido = @Apellido, FechaNacimiento = @FechaNacimiento, Cedula = @Cedula " +
                                                         "WHERE Id=@Id ", connect))
                 {
                     command.Parameters.AddWithValue("@Id", estudiante.Id);
                     command.Parameters.AddWithValue("@Nombre", estudiante.Nombre);
-                    command.Parameters.AddWithValue("@Apellido", estudiante.Apellido);
+                    command.Parameters.AddWithValue("@Apellido", estudiante.Apellidos);
                     command.Parameters.AddWithValue("@FechaNacimiento", estudiante.FechaNacimiento);
                     command.Parameters.AddWithValue("@Cedula", estudiante.Cedula);
                     try
@@ -232,12 +216,12 @@ namespace FVSystem.Repository
 
             connectionString = string.Format("DataSource={0}", absolutePath);
 
-            using (SQLiteConnection connect = new SQLiteConnection(connectionString))
+            using (MySqlConnection connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
 
 
-                using (SQLiteCommand command = new SQLiteCommand(
+                using (MySqlCommand command = new MySqlCommand(
                                                         "DELETE FROM Estudiantes " +
                                                         "WHERE Id=@Id ", connect))
                 {
@@ -271,10 +255,10 @@ namespace FVSystem.Repository
             connectionString = string.Format("DataSource={0}", absolutePath);
 
             List<Estudiante> estudiantes = new List<Estudiante>();
-            using (SQLiteConnection connect = new SQLiteConnection(connectionString))
+            using (MySqlConnection connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
-                using (SQLiteCommand command = connect.CreateCommand())
+                using (MySqlCommand command = connect.CreateCommand())
                 {
 
                     command.CommandText = @"SELECT E.* " +
@@ -286,7 +270,7 @@ namespace FVSystem.Repository
                     command.Parameters.AddWithValue("@Id", curso);
 
                     command.CommandType = CommandType.Text;
-                    SQLiteDataReader reader = command.ExecuteReader();
+                    MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
                         estudiantes.Add(new Estudiante()
