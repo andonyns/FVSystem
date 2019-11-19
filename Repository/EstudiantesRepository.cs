@@ -31,22 +31,18 @@ namespace FVSystem.Repository
                 {
 
                     command.CommandText = @"SELECT *" +
-                                        "FROM personas " +
-                                        "WHERE identificacion is not null " +
-                                        "AND fecha_nacimiento is not null";
+                                        "FROM Estudiantes";
                     command.CommandType = CommandType.Text;
                     MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
                         estudiantes.Add(new Estudiante()
                         {
-                            Id = Convert.ToInt32(reader["id"]),
-                            Cedula = Convert.ToString(reader["identificacion"]),
-                            Nombre = Convert.ToString(reader["nombre_completo"]),
-                            Apellidos = Convert.ToString(reader["apellidos"]),
-                            Residencia = Convert.ToString(reader["residencia"]),
-                            Sexo = Convert.ToString(reader["sexo"]),
-                            FechaNacimiento = Convert.ToDateTime(reader["fecha_nacimiento"]),
+                            Id = Convert.ToInt32(reader["Id"]),
+                            Cedula = Convert.ToString(reader["Cedula"]),
+                            Nombre = Convert.ToString(reader["Nombre"]),
+                            Apellido = Convert.ToString(reader["Apellido"]),
+                            FechaNacimiento = Convert.ToDateTime(reader["FechaNacimiento"]),
                         });
                     }
 
@@ -63,10 +59,9 @@ namespace FVSystem.Repository
                 connect.Open();
                 using (MySqlCommand command = connect.CreateCommand())
                 {
-
                     command.CommandText = @"SELECT *" +
-                                        "FROM personas " +
-                                        "WHERE id = @Id";
+                                        "FROM Estudiantes " +
+                                        "WHERE Id = @Id";
                     command.Parameters.AddWithValue("@Id", id);
                     command.CommandType = CommandType.Text;
                     MySqlDataReader reader = command.ExecuteReader();
@@ -74,24 +69,24 @@ namespace FVSystem.Repository
                     {
                         estudiante = new Estudiante()
                         {
-                            Id = Convert.ToInt32(reader["id"]),
-                            Cedula = Convert.ToString(reader["identificacion"]),
-                            Nombre = Convert.ToString(reader["nombre_completo"]),
-                            Apellidos = Convert.ToString(reader["apellidos"]),
-                            Residencia = Convert.ToString(reader["residencia"]),
-                            Sexo = Convert.ToString(reader["sexo"]),
-                            FechaNacimiento = Convert.ToDateTime(reader["fecha_nacimiento"]),
+                            Id = Convert.ToInt32(reader["Id"]),
+                            Cedula = Convert.ToString(reader["Cedula"]),
+                            Nombre = Convert.ToString(reader["Nombre"]),
+                            Apellido = Convert.ToString(reader["Apellido"]),
+                            FechaNacimiento = Convert.ToDateTime(reader["FechaNacimiento"]),
                         };
                     }
 
                 }
+
+
             }
             return estudiante;
         }
 
-        public Estudiante ObtenerEstudiantesPorCurso(string cursoId)
+        public List<Estudiante> ObtenerEstudiantesPorCurso(string cursoId)
         {
-            Estudiante estudiante = new Estudiante();
+            var estudiantes = new List<Estudiante>();
             using (MySqlConnection connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
@@ -108,21 +103,19 @@ namespace FVSystem.Repository
                     MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        estudiante = new Estudiante()
+                        estudiantes.Add(new Estudiante()
                         {
-                            Id = Convert.ToInt32(reader["id"]),
-                            Cedula = Convert.ToString(reader["identificacion"]),
-                            Nombre = Convert.ToString(reader["nombre_completo"]),
-                            Apellidos = Convert.ToString(reader["apellidos"]),
-                            Residencia = Convert.ToString(reader["residencia"]),
-                            Sexo = Convert.ToString(reader["sexo"]),
-                            FechaNacimiento = Convert.ToDateTime(reader["fecha_nacimiento"]),
-                        };
+                                Id = Convert.ToInt32(reader["Id"]),
+                                Cedula = Convert.ToString(reader["Cedula"]),
+                                Nombre = Convert.ToString(reader["Nombre"]),
+                                Apellido = Convert.ToString(reader["Apellido"]),
+                                FechaNacimiento = Convert.ToDateTime(reader["FechaNacimiento"]),
+                    });
                     }
 
                 }
             }
-            return estudiante;
+            return estudiantes;
         }
 
         public bool InsertarEstudiante(Estudiante estudiante)
@@ -133,17 +126,14 @@ namespace FVSystem.Repository
 
 
                 using (MySqlCommand command = new MySqlCommand(
-                                                        "INSERT INTO " +
-                                                        "Estudiantes(id, nombre_completo, apellidos, fecha_nacimiento, identificacion, sexo, residencia) " +
-                                                        "VALUES(@Id, @Nombre, @Apellido, @FechaNacimiento, @Cedula, @Sexo, @Residencia)", connect))
+                                                        "INSERT INTO Estudiantes(Id,Nombre,Apellido,FechaNacimiento,Cedula) " +
+                                                        "VALUES(@Id,@Nombre,@Apellido,@FechaNacimiento,@Cedula)", connect))
                 {
                     command.Parameters.AddWithValue("@Id", estudiante.Id);
                     command.Parameters.AddWithValue("@Nombre", estudiante.Nombre);
-                    command.Parameters.AddWithValue("@Cedula", estudiante.Apellidos);
+                    command.Parameters.AddWithValue("@Apellido", estudiante.Apellido);
                     command.Parameters.AddWithValue("@FechaNacimiento", estudiante.FechaNacimiento);
                     command.Parameters.AddWithValue("@Cedula", estudiante.Cedula);
-                    command.Parameters.AddWithValue("@Sexo", estudiante.Sexo);
-                    command.Parameters.AddWithValue("@Residencia", estudiante.Residencia);
 
                     try
                     {
@@ -185,7 +175,7 @@ namespace FVSystem.Repository
                 {
                     command.Parameters.AddWithValue("@Id", estudiante.Id);
                     command.Parameters.AddWithValue("@Nombre", estudiante.Nombre);
-                    command.Parameters.AddWithValue("@Apellido", estudiante.Apellidos);
+                    command.Parameters.AddWithValue("@Apellido", estudiante.Apellido);
                     command.Parameters.AddWithValue("@FechaNacimiento", estudiante.FechaNacimiento);
                     command.Parameters.AddWithValue("@Cedula", estudiante.Cedula);
                     try

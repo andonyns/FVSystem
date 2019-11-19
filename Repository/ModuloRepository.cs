@@ -255,7 +255,7 @@ namespace FVSystem.Repository
                             Id = Convert.ToInt32(reader["Id"]),
                             Cedula = Convert.ToString(reader["Cedula"]),
                             Nombre = Convert.ToString(reader["Nombre"]),
-                            Apellidos = Convert.ToString(reader["Apellidos"]),
+                            Apellido = Convert.ToString(reader["Apellido"]),
                             FechaNacimiento = Convert.ToDateTime(reader["FechaNacimiento"])
                         };
 
