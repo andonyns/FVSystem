@@ -105,12 +105,12 @@ namespace FVSystem.Repository
                     {
                         estudiantes.Add(new Estudiante()
                         {
-                                Id = Convert.ToInt32(reader["Id"]),
-                                Cedula = Convert.ToString(reader["Cedula"]),
-                                Nombre = Convert.ToString(reader["Nombre"]),
-                                Apellido = Convert.ToString(reader["Apellido"]),
-                                FechaNacimiento = Convert.ToDateTime(reader["FechaNacimiento"]),
-                    });
+                            Id = Convert.ToInt32(reader["Id"]),
+                            Cedula = Convert.ToString(reader["Cedula"]),
+                            Nombre = Convert.ToString(reader["Nombre"]),
+                            Apellido = Convert.ToString(reader["Apellido"]),
+                            FechaNacimiento = Convert.ToDateTime(reader["FechaNacimiento"]),
+                        });
                     }
 
                 }
@@ -153,16 +153,6 @@ namespace FVSystem.Repository
 
         public bool ActualizarEstudiante(Estudiante estudiante)
         {
-            string relativePath = @"Database\FVSystem.db";
-            string currentPath;
-            string absolutePath;
-            string connectionString;
-
-            currentPath = AppDomain.CurrentDomain.BaseDirectory;
-            absolutePath = Path.Combine(currentPath, relativePath);
-
-            connectionString = string.Format("DataSource={0}", absolutePath);
-
             using (MySqlConnection connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
@@ -196,16 +186,6 @@ namespace FVSystem.Repository
 
         public bool BorrarEstudiante(string id)
         {
-            string relativePath = @"Database\FVSystem.db";
-            string currentPath;
-            string absolutePath;
-            string connectionString;
-
-            currentPath = AppDomain.CurrentDomain.BaseDirectory;
-            absolutePath = Path.Combine(currentPath, relativePath);
-
-            connectionString = string.Format("DataSource={0}", absolutePath);
-
             using (MySqlConnection connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
@@ -234,16 +214,6 @@ namespace FVSystem.Repository
         }
         public List<Estudiante> ObtenerEstudiantesCurso(string curso)
         {
-            string relativePath = @"Database\FVSystem.db";
-            string currentPath;
-            string absolutePath;
-            string connectionString;
-
-            currentPath = AppDomain.CurrentDomain.BaseDirectory;
-            absolutePath = System.IO.Path.Combine(currentPath, relativePath);
-
-            connectionString = string.Format("DataSource={0}", absolutePath);
-
             List<Estudiante> estudiantes = new List<Estudiante>();
             using (MySqlConnection connect = new MySqlConnection(connectionString))
             {

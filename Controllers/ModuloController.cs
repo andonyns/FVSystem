@@ -1,6 +1,7 @@
 ﻿using FVSystem.Models;
 using FVSystem.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System.Net;
 
 namespace FVSystem.Controllers
@@ -10,10 +11,10 @@ namespace FVSystem.Controllers
         private ModuloRepository repository;
         private CursosRepository cursosRepository;
 
-        public ModuloController()
+        public ModuloController(IConfiguration config)
         {
             repository = new ModuloRepository();
-            cursosRepository = new CursosRepository();
+            cursosRepository = new CursosRepository(config);
         }
 
         public ActionResult Index()

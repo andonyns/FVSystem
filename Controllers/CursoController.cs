@@ -3,6 +3,7 @@ using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using FVSystem.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace FVSystem.Controllers
 {
@@ -11,10 +12,10 @@ namespace FVSystem.Controllers
         private readonly ILogger<CursoController> _logger;
         private CursosRepository repository;
 
-        public CursoController(ILogger<CursoController> logger)
+        public CursoController(ILogger<CursoController> logger, IConfiguration config)
         {
             _logger = logger;
-            repository = new CursosRepository();
+            repository = new CursosRepository(config);
         }
 
         public ActionResult Index()

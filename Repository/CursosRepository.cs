@@ -1,4 +1,5 @@
 ﻿using FVSystem.Models;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,6 +12,15 @@ namespace FVSystem.Repository
 {
     public class CursosRepository
     {
+        private IConfiguration configuration;
+        private string connectionString;
+
+        public CursosRepository(IConfiguration config)
+        {
+            configuration = config;
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
+
         public List<Curso> ObtenerCursos()
         {
             string relativePath = @"Database\FVSystem.db";
