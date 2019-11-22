@@ -58,7 +58,9 @@ namespace FVSystem.Repository
             return cursos;
         }
 
-        public Curso ObtenerCurso(string id)
+       
+
+        public Curso ObtenerCurso(string nombre)
         {
             string relativePath = @"Database\FVSystem.db";
             string currentPath;
@@ -79,7 +81,7 @@ namespace FVSystem.Repository
 
                     command.CommandText = @"SELECT * " +
                                         "FROM Cursos " +
-                                        "WHERE Id = " + id;
+                                        "WHERE Id = " + nombre;
 
                     command.CommandType = CommandType.Text;
                     SQLiteDataReader reader = command.ExecuteReader();
@@ -141,7 +143,7 @@ namespace FVSystem.Repository
         }
        
 
-        public bool InsertarCurso(Curso curso)
+        public bool InsertarCurso(string nombre)
         {
             string relativePath = @"Database\FVSystem.db";
             string currentPath;
@@ -158,11 +160,11 @@ namespace FVSystem.Repository
                 connect.Open();
 
                 using (SQLiteCommand command = new SQLiteCommand(
-                                                        "INSERT INTO Cursos(Id,Nombre) " +
-                                                        "VALUES(@Id,@Nombre)", connect))
+                                                        "INSERT INTO Cursos(Nombre) " +
+                                                        "VALUES(@Nombre)", connect))
                 {
-                    command.Parameters.AddWithValue("@Id", curso.Id);
-                    command.Parameters.AddWithValue("@Nombre", curso.Nombre);
+                    
+                    command.Parameters.AddWithValue("@Nombre", nombre);
 
                     try
                     {
@@ -180,7 +182,7 @@ namespace FVSystem.Repository
 
         }
 
-        public bool ActualizarCurso(Curso curso)
+        public bool ActualizarCurso(string nombre)
         {
             string relativePath = @"Database\FVSystem.db";
             string currentPath;
@@ -200,8 +202,8 @@ namespace FVSystem.Repository
                                                         "Set Nombre = @Nombre " +
                                                         "Where Id = @Id", connect))
                 {
-                    command.Parameters.AddWithValue("@Id", curso.Id);
-                    command.Parameters.AddWithValue("@Nombre", curso.Nombre);
+                    
+                    command.Parameters.AddWithValue("@Nombre", nombre);
 
                     try
                     {

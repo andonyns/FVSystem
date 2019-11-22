@@ -38,16 +38,16 @@ namespace FVSystem.Controllers
         }
 
         [HttpPost]
-        public ActionResult Guardar(Curso curso)
+        public ActionResult Guardar(string nombre)
         {
-            var cursos = repository.InsertarCurso(curso);
+            var cursos = repository.InsertarCurso(nombre);
 
             return Redirect("/Curso");
         }
 
-        public ActionResult Actualizar(Curso curso)
+        public ActionResult Actualizar(string nombre)
         {
-            var cursos = repository.ActualizarCurso(curso);
+            var cursos = repository.ActualizarCurso(nombre);
 
             return Redirect("/Curso");
         }
