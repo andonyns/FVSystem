@@ -1,32 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\andon\\Desktop\\FVSystem\\FVSystem.csproj": {}
+    "C:\\Users\\Estudiante\\Desktop\\FVSystem\\FVSystem.csproj": {}
   },
   "projects": {
-    "C:\\Users\\andon\\Desktop\\FVSystem\\FVSystem.csproj": {
+    "C:\\Users\\Estudiante\\Desktop\\FVSystem\\FVSystem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\andon\\Desktop\\FVSystem\\FVSystem.csproj",
+        "projectUniqueName": "C:\\Users\\Estudiante\\Desktop\\FVSystem\\FVSystem.csproj",
         "projectName": "FVSystem",
-        "projectPath": "C:\\Users\\andon\\Desktop\\FVSystem\\FVSystem.csproj",
-        "packagesPath": "C:\\Users\\andon\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\andon\\Desktop\\FVSystem\\obj\\",
+        "projectPath": "C:\\Users\\Estudiante\\Desktop\\FVSystem\\FVSystem.csproj",
+        "packagesPath": "C:\\Users\\Estudiante\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Estudiante\\Desktop\\FVSystem\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\andon\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Estudiante\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.0"
         ],
         "sources": {
-          "C:\\Nuget\\LocalFeed": {},
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "http://nuget.aluminyze.com/nuget/master": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -43,9 +41,31 @@
       "frameworks": {
         "netcoreapp3.0": {
           "dependencies": {
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
+            "Microsoft.Extensions.Logging.Debug": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
             "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
               "target": "Package",
               "version": "[1.9.5, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[8.0.18, )"
             },
             "System.Data.SQLite.Core": {
               "target": "Package",
