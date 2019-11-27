@@ -38,9 +38,9 @@ namespace FVSystem.Controllers
         }
 
         [HttpPost]
-        public ActionResult Guardar(Curso curso)
+        public ActionResult Guardar(string nombre)
         {
-            var cursos = repository.InsertarCurso(curso);
+            var cursos = repository.InsertarCurso(nombre);
 
             return Redirect("/Curso");
         }

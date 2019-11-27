@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Modulos";
+}
+
+@section Styles {
+    <link href="~/css/modulos.css" rel="stylesheet" />
+    <link href="~/css/listas.css" rel="stylesheet" />
+}
+
+@section script {
+    <script src="~/js/ConfirmacionBorrarModulo.js"></script>
+}
+<h1>Lista de Modulos</h1>
+<table class="col-12">
+
+
+    @foreach (var modulo in Model)
+    {
+	
+        <tr class="row lista">
+            <td class="col-8">@modulo.Nombre</td>
+            <td class="col-sm">@Html.ActionLink("Ver Notas", "DesgloseDeNotas", "Notas", new { moduloId = @modulo.Id }, new { miAtributo = "valor1", @class = "btn btn-danger" })</td>
+            <td class="col-sm">
+            </td>
+        </tr>
+    }
+
+</table>
+
+@Html.ActionLink("Agregar", "Agregar", "Modulo", new { @class = "nav-link" }, new { miAtributo = "valor1", @class = "btn btn-danger" })
+
+
