@@ -10,13 +10,11 @@ namespace FVSystem.Controllers
 {
     public class SedesController : Controller
     {
-        private IConfiguration configuration;
         private SedesRepository repository;
 
         public SedesController(IConfiguration config)
         {
-            configuration = config;
-            repository = new SedesRepository();
+            repository = new SedesRepository(config);
         }
         public IActionResult Index()
         {
