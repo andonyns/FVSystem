@@ -19,7 +19,8 @@
     @foreach (var estudiante in Model)
     {
         <tr class="row lista">
-            <td class="col-9">@estudiante.Nombre @estudiante.Apellido</td>
+            <td class="col-8">@estudiante.Nombre @estudiante.Apellido</td>
+            <td class="col-sm">@Html.ActionLink("Ver Perfil","Perfilestudiante", "Estudiantes", new string { id = estudiante.Id }, new {miAtributo = "valor1", @class ="btn btn-danger" }) </td>
             <td class="col-sm"> @Html.ActionLink("Editar", "Editar", "Estudiantes", new { id = @estudiante.Id }, new { miAtributo = "valor1", @class = "btn btn-danger" }) </td>
             <td class="col-sm">
                 <button type="button" class="btn btn-danger" onclick="borrarEstudiante(@estudiante.Id)">
