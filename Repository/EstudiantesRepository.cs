@@ -163,7 +163,8 @@ namespace FVSystem.Repository
                                                         "SET Nombre = @Nombre, Apellido = @Apellido, FechaNacimiento = @FechaNacimiento, Cedula = @Cedula " +
                                                         "WHERE Id=@Id ", connect))
                 {
-                   
+
+                    command.Parameters.AddWithValue("@Id", estudiante.Id);
                     command.Parameters.AddWithValue("@Nombre", estudiante.Nombre);
                     command.Parameters.AddWithValue("@Apellido", estudiante.Apellido);
                     command.Parameters.AddWithValue("@FechaNacimiento", estudiante.FechaNacimiento);
