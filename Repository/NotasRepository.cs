@@ -1,6 +1,9 @@
-﻿using MySql.Data.MySqlClient;
+﻿using FVSystem.Models;
+using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,47 +11,66 @@ namespace FVSystem.Repository
 {
     public class NotasRepository
     {
-        public List<NotaModulo> ObtenerNotaPorModulo(int Modulo)
+
+        private IConfiguration configuration;
+        private string connectionString;
+
+        public NotasRepository(IConfiguration config)
         {
-            string relativePath = @"Database\FVSystem.db";
-            string currentPath;
-            string absolutePath;
-            string connectionString;
+            configuration = config;
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
 
-            currentPath = AppDomain.CurrentDomain.BaseDirectory;
-            absolutePath = System.IO.Path.Combine(currentPath, relativePath);
-
-            connectionString = string.Format("DataSource={0}", absolutePath);
-
-            List<Curso> notas = new List<Curso>();
-            using (MySqlConnection connect = new MySqlConnection(connectionString))
+        public List<NotaModulo> DesgloseNotasPorModulo(string moduloId)
+        {
+            var Notas = new List<NotaModulo>();
+            using (var connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
-                using (MySqlConnection command = connect.CreateCommand())
+                using (var command = connect.CreateCommand())
                 {
 
-                    command.CommandText = @"SELECT dn.*, nm.Nota " +
-                                         "FROM DesgloseDeNotas dn " +
-                                        "INNER JOIN NotasModulo nm " +
-                                        "ON dn.IdNotas = nm.IdNotas " +
-                                        "WHERE IdModulo = @Id";
+                command.CommandText = @"SELECT dn.*, nm.Nota " +
+                                        "FROM DesgloseDeNotas dn " +
+                                         "INNER JOIN NotasModulo nm " +
+                                           "ON dn.IdNotas = nm.IdNotas " +
+                                                "WHERE IdModulo = @Id";
+                command.CommandType = CommandType.Text;
+                    command.Parameters.AddWithValue("@Id", moduloId);
 
-                    command.Parameters.AddWithValue("@Id", modulo);
-
-                    command.CommandType = CommandType.Text;
-                    SQLiteDataReader reader = command.ExecuteReader();
+                    var reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        notas.Add(new nota()
+                        var estudiante = new Estudiante()
                         {
                             Id = Convert.ToInt32(reader["Id"]),
-                            Nombre = Convert.ToString(reader["Nombre"])
+                            Cedula = Convert.ToString(reader["Cedula"]),
+                            Nombre = Convert.ToString(reader["Nombre"]),
+                            Apellido = Convert.ToString(reader["Apellido"]),
+                            FechaNacimiento = Convert.ToDateTime(reader["FechaNacimiento"])
+                        };
 
-                        });
+                        var modulo = new Modulo()
+                        {
+                            Id = Convert.ToInt32(reader["IdModulo"]),
+                            Nombre = Convert.ToString(reader["NombreModulo"]),
+                            FechaInicio = Convert.ToDateTime(reader["FechaInicio"]),
+                            FechaFinal = Convert.ToDateTime(reader["FechaFinal"]),
+                            IdCurso = Convert.ToString(reader["IdCurso"])
+                        };
+
+                        var nota = new NotaModulo()
+                        {
+                            Estudiante = estudiante,
+                            Modulo = modulo,
+                            Nota = Convert.ToInt32(reader["Nota"])
+                        };
+                        Notas.Add(nota);
                     }
                 }
             }
-            return notas;
+
+            return Notas;
         }
     }
 }
