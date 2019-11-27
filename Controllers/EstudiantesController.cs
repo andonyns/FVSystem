@@ -68,5 +68,11 @@ namespace FVSystem.Controllers
 
             return View("Lista", estudiantes);
         }
+        public ActionResult PerfilEstudiante(string id)
+        {
+            var estudiante = repository.ObtenerEstudiante(id);
+
+            return View(estudiante);
+        }
     }
 }

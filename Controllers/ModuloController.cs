@@ -13,7 +13,7 @@ namespace FVSystem.Controllers
 
         public ModuloController(IConfiguration config)
         {
-            repository = new ModuloRepository();
+            repository = new ModuloRepository(config);
             cursosRepository = new CursosRepository(config);
         }
 

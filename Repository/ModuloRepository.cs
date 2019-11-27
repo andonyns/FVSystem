@@ -1,4 +1,6 @@
 ﻿using FVSystem.Models;
+using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,29 +13,27 @@ namespace FVSystem.Repository
 {
     public class ModuloRepository
     {
+        private string connectionString;
+
+        public ModuloRepository(IConfiguration config)
+        {
+            connectionString = config.GetConnectionString("DefaultConnection");
+        }
+
         public List<Modulo> ObtenerModulos()
         {
-            string relativePath = @"Database\FVSystem.db";
-            string currentPath;
-            string absolutePath;
-            string connectionString;
-
-            currentPath = AppDomain.CurrentDomain.BaseDirectory;
-            absolutePath = System.IO.Path.Combine(currentPath, relativePath);
-
-            connectionString = string.Format("DataSource={0}", absolutePath);
 
             List<Modulo> modulos = new List<Modulo>();
-            using (SQLiteConnection connect = new SQLiteConnection(connectionString))
+            using (var connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
-                using (SQLiteCommand command = connect.CreateCommand())
+                using (var command = connect.CreateCommand())
                 {
 
-                    command.CommandText = @"SELECT *" +
+                    command.CommandText = @"SELECT * " +
                                         "FROM Modulos";
                     command.CommandType = CommandType.Text;
-                    SQLiteDataReader reader = command.ExecuteReader();
+                    MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
                         modulos.Add(new Modulo()
@@ -51,22 +51,12 @@ namespace FVSystem.Repository
         }
 
         public Modulo ObtenerModulo(string id)
-        {
-            string relativePath = @"Database\FVSystem.db";
-            string currentPath;
-            string absolutePath;
-            string connectionString;
-
-            currentPath = AppDomain.CurrentDomain.BaseDirectory;
-            absolutePath = System.IO.Path.Combine(currentPath, relativePath);
-
-            connectionString = string.Format("DataSource={0}", absolutePath);
-
+        {    
             Modulo modulo = new Modulo();
-            using (SQLiteConnection connect = new SQLiteConnection(connectionString))
+            using (MySqlConnection connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
-                using (SQLiteCommand command = connect.CreateCommand())
+                using (MySqlCommand command = connect.CreateCommand())
                 {
 
                     command.CommandText = @"SELECT *" +
@@ -75,7 +65,7 @@ namespace FVSystem.Repository
                     command.CommandType = CommandType.Text;
                     command.Parameters.AddWithValue("@Id", id);
 
-                    SQLiteDataReader reader = command.ExecuteReader();
+                    MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
                         modulo = new Modulo()
@@ -95,22 +85,12 @@ namespace FVSystem.Repository
 
         public bool InsertarModulos(Modulo modulo)
         {
-            string relativePath = @"Database\FVSystem.db";
-            string currentPath;
-            string absolutePath;
-            string connectionString;
-
-            currentPath = AppDomain.CurrentDomain.BaseDirectory;
-            absolutePath = Path.Combine(currentPath, relativePath);
-
-            connectionString = string.Format("DataSource={0}", absolutePath);
-
-            using (SQLiteConnection connect = new SQLiteConnection(connectionString))
+            using (MySqlConnection connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
 
 
-                using (SQLiteCommand command = new SQLiteCommand(
+                using (MySqlCommand command = new MySqlCommand(
                                                         "INSERT INTO Modulos(Id,Nombre,FechaInicio,FechaFinal,IdCurso) " +
                                                         "VALUES(@Id,@Nombre,@FechaInicio,@FechaFinal,@IdCurso )", connect))
                 {
@@ -137,22 +117,13 @@ namespace FVSystem.Repository
 
         public bool ActualizarModulo(Modulo modulo)
         {
-            string relativePath = @"Database\FVSystem.db";
-            string currentPath;
-            string absolutePath;
-            string connectionString;
 
-            currentPath = AppDomain.CurrentDomain.BaseDirectory;
-            absolutePath = Path.Combine(currentPath, relativePath);
-
-            connectionString = string.Format("DataSource={0}", absolutePath);
-
-            using (SQLiteConnection connect = new SQLiteConnection(connectionString))
+            using (MySqlConnection connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
 
 
-                using (SQLiteCommand command = new SQLiteCommand(
+                using (MySqlCommand command = new MySqlCommand(
                                                         "UPDATE Modulos " +
                                                         "SET Nombre= @Nombre, FechaInicio= @FechaInicio, FechaFinal= @FechaFinal, IdCurso= @IdCurso " +
                                                         "WHERE Id= @Id", connect))
@@ -180,22 +151,13 @@ namespace FVSystem.Repository
 
         public bool BorrarModulo(string id)
         {
-            string relativePath = @"Database\FVSystem.db";
-            string currentPath;
-            string absolutePath;
-            string connectionString;
 
-            currentPath = AppDomain.CurrentDomain.BaseDirectory;
-            absolutePath = Path.Combine(currentPath, relativePath);
-
-            connectionString = string.Format("DataSource={0}", absolutePath);
-
-            using (SQLiteConnection connect = new SQLiteConnection(connectionString))
+            using (MySqlConnection connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
 
 
-                using (SQLiteCommand command = new SQLiteCommand(
+                using (MySqlCommand command = new MySqlCommand(
                                                         "DELETE  " +
                                                         "FROM Modulos " +
                                                         "WHERE Id= @Id", connect))
@@ -220,21 +182,11 @@ namespace FVSystem.Repository
 
         public List<NotaModulo> ObtenerNotasPorModulo(string moduloId)
         {
-            string relativePath = @"Database\FVSystem.db";
-            string currentPath;
-            string absolutePath;
-            string connectionString;
-
-            currentPath = AppDomain.CurrentDomain.BaseDirectory;
-            absolutePath = System.IO.Path.Combine(currentPath, relativePath);
-
-            connectionString = string.Format("DataSource={0}", absolutePath);
-
             var Notas = new List<NotaModulo>();
-            using (SQLiteConnection connect = new SQLiteConnection(connectionString))
+            using (MySqlConnection connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
-                using (SQLiteCommand command = connect.CreateCommand())
+                using (MySqlCommand command = connect.CreateCommand())
                 {
 
                     command.CommandText = @"SELECT e.*, m.Id as IdModulo, m.Nombre as NombreModulo, m.FechaInicio, m.FechaFinal, m.IdCurso, nm.Nota " +
@@ -247,7 +199,7 @@ namespace FVSystem.Repository
                     command.CommandType = CommandType.Text;
                     command.Parameters.AddWithValue("@Id", moduloId);
 
-                    SQLiteDataReader reader = command.ExecuteReader();
+                    MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
                         var estudiante = new Estudiante()
@@ -284,21 +236,11 @@ namespace FVSystem.Repository
 
         public List<Modulo> ObtenerModulosCurso(int curso)
         {
-            string relativePath = @"Database\FVSystem.db";
-            string currentPath;
-            string absolutePath;
-            string connectionString;
-
-            currentPath = AppDomain.CurrentDomain.BaseDirectory;
-            absolutePath = System.IO.Path.Combine(currentPath, relativePath);
-
-            connectionString = string.Format("DataSource={0}", absolutePath);
-
             List<Modulo> modulos = new List<Modulo>();
-            using (SQLiteConnection connect = new SQLiteConnection(connectionString))
+            using (MySqlConnection connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
-                using (SQLiteCommand command = connect.CreateCommand())
+                using (MySqlCommand command = connect.CreateCommand())
                 {
 
                     command.CommandText = @"SELECT m.* " +
@@ -310,7 +252,7 @@ namespace FVSystem.Repository
                     command.Parameters.AddWithValue("@Id", curso);
 
                     command.CommandType = CommandType.Text;
-                    SQLiteDataReader reader = command.ExecuteReader();
+                    MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
                         modulos.Add(new Modulo()
