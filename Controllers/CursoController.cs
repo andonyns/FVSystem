@@ -45,9 +45,9 @@ namespace FVSystem.Controllers
             return Redirect("/Curso");
         }
 
-        public ActionResult Actualizar(string nombre)
+        public ActionResult Actualizar(Curso curso)
         {
-            var cursos = repository.ActualizarCurso(nombre);
+            var cursos = repository.ActualizarCurso(curso);
 
             return Redirect("/Curso");
         }

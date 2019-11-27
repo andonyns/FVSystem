@@ -1,5 +1,6 @@
 ﻿using FVSystem.Models;
 using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -23,27 +24,17 @@ namespace FVSystem.Repository
 
         public List<Curso> ObtenerCursos()
         {
-            string relativePath = @"Database\FVSystem.db";
-            string currentPath;
-            string absolutePath;
-            string connectionString;
-
-            currentPath = AppDomain.CurrentDomain.BaseDirectory;
-            absolutePath = System.IO.Path.Combine(currentPath, relativePath);
-
-            connectionString = string.Format("DataSource={0}", absolutePath);
-
             List<Curso> cursos = new List<Curso>();
-            using (SQLiteConnection connect = new SQLiteConnection(connectionString))
+            using (var connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
-                using (SQLiteCommand command = connect.CreateCommand())
+                using (var command = connect.CreateCommand())
                 {
 
                     command.CommandText = @"SELECT *" +
                                         "FROM Cursos";
                     command.CommandType = CommandType.Text;
-                    SQLiteDataReader reader = command.ExecuteReader();
+                    MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
                         cursos.Add(new Curso()
@@ -62,21 +53,11 @@ namespace FVSystem.Repository
 
         public Curso ObtenerCurso(string nombre)
         {
-            string relativePath = @"Database\FVSystem.db";
-            string currentPath;
-            string absolutePath;
-            string connectionString;
-
-            currentPath = AppDomain.CurrentDomain.BaseDirectory;
-            absolutePath = System.IO.Path.Combine(currentPath, relativePath);
-
-            connectionString = string.Format("DataSource={0}", absolutePath);
-
             Curso curso = new Curso();
-            using (SQLiteConnection connect = new SQLiteConnection(connectionString))
+            using (var connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
-                using (SQLiteCommand command = connect.CreateCommand())
+                using (var command = connect.CreateCommand())
                 {
 
                     command.CommandText = @"SELECT * " +
@@ -84,7 +65,7 @@ namespace FVSystem.Repository
                                         "WHERE Id = " + nombre;
 
                     command.CommandType = CommandType.Text;
-                    SQLiteDataReader reader = command.ExecuteReader();
+                    var reader = command.ExecuteReader();
                     while (reader.Read())
                     {
                         curso = new Curso()
@@ -101,21 +82,11 @@ namespace FVSystem.Repository
 
         public List<Curso> ObtenerCursosSede(int sede)
         {
-            string relativePath = @"Database\FVSystem.db";
-            string currentPath;
-            string absolutePath;
-            string connectionString;
-
-            currentPath = AppDomain.CurrentDomain.BaseDirectory;
-            absolutePath = System.IO.Path.Combine(currentPath, relativePath);
-
-            connectionString = string.Format("DataSource={0}", absolutePath);
-
             List<Curso> cursos = new List<Curso>();
-            using (SQLiteConnection connect = new SQLiteConnection(connectionString))
+            using (var connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
-                using (SQLiteCommand command = connect.CreateCommand())
+                using (var command = connect.CreateCommand())
                 {
 
                     command.CommandText = @"SELECT c.* " +
@@ -127,7 +98,7 @@ namespace FVSystem.Repository
                     command.Parameters.AddWithValue("@Id", sede);
 
                     command.CommandType = CommandType.Text;
-                    SQLiteDataReader reader = command.ExecuteReader();
+                    var reader = command.ExecuteReader();
                     while (reader.Read())
                     {
                         cursos.Add(new Curso()
@@ -145,21 +116,11 @@ namespace FVSystem.Repository
 
         public bool InsertarCurso(string nombre)
         {
-            string relativePath = @"Database\FVSystem.db";
-            string currentPath;
-            string absolutePath;
-            string connectionString;
-
-            currentPath = AppDomain.CurrentDomain.BaseDirectory;
-            absolutePath = Path.Combine(currentPath, relativePath);
-
-            connectionString = string.Format("DataSource={0}", absolutePath);
-
-            using (SQLiteConnection connect = new SQLiteConnection(connectionString))
+            using (var connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
 
-                using (SQLiteCommand command = new SQLiteCommand(
+                using (var command = new MySqlCommand(
                                                         "INSERT INTO Cursos(Nombre) " +
                                                         "VALUES(@Nombre)", connect))
                 {
@@ -182,28 +143,18 @@ namespace FVSystem.Repository
 
         }
 
-        public bool ActualizarCurso(string nombre)
+        public bool ActualizarCurso(Curso curso)
         {
-            string relativePath = @"Database\FVSystem.db";
-            string currentPath;
-            string absolutePath;
-            string connectionString;
-
-            currentPath = AppDomain.CurrentDomain.BaseDirectory;
-            absolutePath = System.IO.Path.Combine(currentPath, relativePath);
-
-            connectionString = string.Format("DataSource={0}", absolutePath);
-
-            using (SQLiteConnection connect = new SQLiteConnection(connectionString))
+            using (var connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
-                using (SQLiteCommand command = new SQLiteCommand(
+                using (var command = new MySqlCommand(
                                                        @"Update Cursos " +
                                                         "Set Nombre = @Nombre " +
                                                         "Where Id = @Id", connect))
                 {
-                    
-                    command.Parameters.AddWithValue("@Nombre", nombre);
+                    command.Parameters.AddWithValue("@Id", curso.Id);
+                    command.Parameters.AddWithValue("@Nombre", curso.Nombre);
 
                     try
                     {
@@ -222,20 +173,10 @@ namespace FVSystem.Repository
 
         public bool EliminarCurso(Curso curso)
         {
-            string relativePath = @"Database\FVSystem.db";
-            string currentPath;
-            string absolutePath;
-            string connectionString;
-
-            currentPath = AppDomain.CurrentDomain.BaseDirectory;
-            absolutePath = System.IO.Path.Combine(currentPath, relativePath);
-
-            connectionString = string.Format("DataSource={0}", absolutePath);
-
-            using (SQLiteConnection connect = new SQLiteConnection(connectionString))
+            using (var connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
-                using (SQLiteCommand command = new SQLiteCommand(
+                using (var command = new MySqlCommand(
                                                        @"DELETE FROM Cursos " +
                                                         "WHERE Id = @Id", connect))
                 {

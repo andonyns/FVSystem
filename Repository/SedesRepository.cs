@@ -1,4 +1,6 @@
 ﻿using FVSystem.Models;
+using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -8,31 +10,31 @@ using System.Web;
 
 namespace FVSystem.Repository
 {
+
     public class SedesRepository
     {
+        private IConfiguration configuration;
+        private string connectionString;
+
+        public SedesRepository(IConfiguration config)
+        {
+            configuration = config;
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
+
         public List<Sede> GetSedes()
         {
-            string relativePath = @"Database\FVSystem.db";
-            string currentPath;
-            string absolutePath;
-            string connectionString;
-
-            currentPath = AppDomain.CurrentDomain.BaseDirectory;
-            absolutePath = System.IO.Path.Combine(currentPath, relativePath);
-
-            connectionString = string.Format("DataSource={0}", absolutePath);
-
             List<Sede> sedes = new List<Sede>();
-            using (SQLiteConnection connect = new SQLiteConnection(connectionString))
+            using (var connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
-                using (SQLiteCommand command = connect.CreateCommand())
+                using (var command = connect.CreateCommand())
                 {
 
                     command.CommandText = @"SELECT *" +
                                         "FROM Sedes";
                     command.CommandType = CommandType.Text;
-                    SQLiteDataReader reader = command.ExecuteReader();
+                    MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
                         sedes.Add(new Sede()
@@ -49,22 +51,13 @@ namespace FVSystem.Repository
 
         public bool InsertarSede(Sede sede)
         {
-            string relativePath = @"Database\FVSystem.db";
-            string currentPath;
-            string absolutePath;
-            string connectionString;
-
-            currentPath = AppDomain.CurrentDomain.BaseDirectory;
-            absolutePath = System.IO.Path.Combine(currentPath, relativePath);
-
-            connectionString = string.Format("DataSource={0}", absolutePath);
-
-            using (SQLiteConnection connect = new SQLiteConnection(connectionString))
+            
+            using (var connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
 
 
-                using (SQLiteCommand command = new SQLiteCommand(
+                using (var command = new MySqlCommand(
                                                         "INSERT INTO Sedes(Id,Nombre,Direccion) " +
                                                         "VALUES(@Id,@Nombre,@Direccion)", connect))
                 {
