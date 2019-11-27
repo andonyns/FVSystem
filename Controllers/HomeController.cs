@@ -10,21 +10,10 @@ using MySql.Data.MySqlClient;
 namespace FVSystem.Controllers
 {
     public class HomeController : Controller
-    {
-        private IConfiguration configuration;
-        private SedesRepository repository;
-        public HomeController(IConfiguration config)
-        {
-            configuration = config;
-            repository = new SedesRepository(config);
-        }
-
+    {  
         public ActionResult Index()
-        {
-            var sedes = repository.GetSedes();
-
-            return View(sedes);
-
+        {        
+            return View();
         }
     }
 }
