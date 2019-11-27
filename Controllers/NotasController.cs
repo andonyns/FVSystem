@@ -28,14 +28,14 @@ namespace FVSystem.Controllers
         }
     
     public ActionResult NotaPorModulo(int modulo)
-    {
-            //var notas = repository.ObtenerNotaPorModulo(modulo);
-            //if (notas  == null || notas.Count == 0)
-            //{
-            //    ViewBag.ErrorMessage = "No se encontraron cursos";
-            //}
+        {
+            var notas = repository.ObtenerNotaPorModulo(modulo);
+            if (notas == null || notas.Count == 0)
+            {
+                ViewBag.ErrorMessage = "No se encontraron cursos";
+            }
 
-            //return View("Lista", notas);
+            return View("Lista", notas);
             return null;
         }
     }
