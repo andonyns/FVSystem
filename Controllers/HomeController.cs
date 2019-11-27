@@ -16,7 +16,7 @@ namespace FVSystem.Controllers
         public HomeController(IConfiguration config)
         {
             configuration = config;
-            repository = new SedesRepository();
+            repository = new SedesRepository(config);
         }
 
         public ActionResult Index()

@@ -10,33 +10,36 @@ namespace FVSystem.Controllers
 {
     public class NotasController : Controller
     {
-        private EstudiantesRepository repository;
+
+        private EstudiantesRepository estudiantesRepository;
+        private NotasRepository notasRepository;
 
         public NotasController(IConfiguration config)
         {
-            repository = new EstudiantesRepository(config);
+            estudiantesRepository = new EstudiantesRepository(config);
+            notasRepository = new NotasRepository(config);
         }
 
         public IActionResult Asignar(string id)
         {
 
 
-            var estudiante = repository.ObtenerEstudiante(id);
+            var estudiante = estudiantesRepository.ObtenerEstudiante(id);
 
             return View(estudiante);
 
         }
-    
-    public ActionResult NotaPorModulo(int modulo)
+
+        public ActionResult NotasPorModulo(string moduloId)
         {
-            var notas = repository.ObtenerNotaPorModulo(modulo);
+
+            var notas = notasRepository.DesgloseNotasPorModulo(moduloId);
             if (notas == null || notas.Count == 0)
             {
-                ViewBag.ErrorMessage = "No se encontraron cursos";
+                ViewBag.ErrorMessage = "No se encontraron notas para el modulo: " + moduloId;
             }
 
-            return View("Lista", notas);
-            return null;
+            return View("Notas", notas);
         }
     }
 }

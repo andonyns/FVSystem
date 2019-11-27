@@ -34,7 +34,7 @@ namespace FVSystem.Repository
                     command.CommandText = @"SELECT *" +
                                         "FROM Cursos";
                     command.CommandType = CommandType.Text;
-                    MySqlDataReader reader = command.ExecuteReader();
+                    var reader = command.ExecuteReader();
                     while (reader.Read())
                     {
                         cursos.Add(new Curso()
