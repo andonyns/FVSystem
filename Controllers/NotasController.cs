@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FVSystem.Models;
 using FVSystem.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -20,26 +21,17 @@ namespace FVSystem.Controllers
             notasRepository = new NotasRepository(config);
         }
 
-        public IActionResult Asignar(string id)
+        public IActionResult Asignar(string estudianteId, string moduloId)
         {
-
-
-            var estudiante = estudiantesRepository.ObtenerEstudiante(id);
-
-            return View(estudiante);
-
-        }
-
-        public ActionResult NotasPorModulo(string moduloId)
-        {
-
-            var notas = notasRepository.DesgloseNotasPorModulo(moduloId);
-            if (notas == null || notas.Count == 0)
+            var desglose = new NotaEstudiante()
             {
-                ViewBag.ErrorMessage = "No se encontraron notas para el modulo: " + moduloId;
-            }
+                Desglose = notasRepository.DesgloseNotasPorModulo(moduloId, estudianteId),
+                Estudiante = estudiantesRepository.ObtenerEstudiante(estudianteId)
+            };
 
-            return View("Notas", notas);
+            return View(desglose);
+
         }
+
     }
 }

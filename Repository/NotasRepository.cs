@@ -21,56 +21,47 @@ namespace FVSystem.Repository
             connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public List<NotaModulo> DesgloseNotasPorModulo(string moduloId)
+        public DesgloseNotas DesgloseNotasPorModulo(string moduloId, string estudianteId)
         {
-            var Notas = new List<NotaModulo>();
+            var desglose = new DesgloseNotas();
             using (var connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
                 using (var command = connect.CreateCommand())
                 {
 
-                command.CommandText = @"SELECT dn.*, nm.Nota " +
-                                        "FROM DesgloseDeNotas dn " +
-                                         "INNER JOIN NotasModulo nm " +
-                                           "ON dn.IdNotas = nm.IdNotas " +
-                                                "WHERE IdModulo = @Id";
-                command.CommandType = CommandType.Text;
-                    command.Parameters.AddWithValue("@Id", moduloId);
+                    command.CommandText = @"SELECT dn.*, nm.Nota " +
+                                            "FROM DesgloseDeNotas dn " +
+                                             "INNER JOIN NotasModulos nm " +
+                                               "ON dn.IdNota = nm.iD " +
+                                                    "WHERE nm.iD = @IdModulo " +
+                                                    "AND nm.IdEstudiante = @IdEstudiante";
+                    command.CommandType = CommandType.Text;
+                    command.Parameters.AddWithValue("@IdModulo", moduloId);
+                    command.Parameters.AddWithValue("@IdEstudiante", estudianteId);
 
                     var reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        var estudiante = new Estudiante()
+                        desglose = new DesgloseNotas()
                         {
-                            Id = Convert.ToInt32(reader["Id"]),
-                            Cedula = Convert.ToString(reader["Cedula"]),
-                            Nombre = Convert.ToString(reader["Nombre"]),
-                            Apellido = Convert.ToString(reader["Apellido"]),
-                            FechaNacimiento = Convert.ToDateTime(reader["FechaNacimiento"])
-                        };
+                            Asistencia = Convert.ToInt32(reader["Asistencia"]),
+                            AsistenciaTotal = Convert.ToInt32(reader["AsistenciaTotal"]),
+                            Cotidiano = Convert.ToInt32(reader["Cotidiano"]),
+                            CotidianoTotal = Convert.ToInt32(reader["CotidianoTotal"]),
+                            Proyecto1 = Convert.ToInt32(reader["Proyecto1"]),
+                            Proyecto1Total = Convert.ToInt32(reader["Proyecto1Total"]),
+                            Proyecto2 = Convert.ToInt32(reader["Proyecto2"]),
+                            Proyecto2Total = Convert.ToInt32(reader["Proyecto2Total"]),
+                            ProyectoFinal= Convert.ToInt32(reader["ProyectoFinal"]),
+                            ProyectoFinalTotal = Convert.ToInt32(reader["ProyectoFinalTotal"]),
 
-                        var modulo = new Modulo()
-                        {
-                            Id = Convert.ToInt32(reader["IdModulo"]),
-                            Nombre = Convert.ToString(reader["NombreModulo"]),
-                            FechaInicio = Convert.ToDateTime(reader["FechaInicio"]),
-                            FechaFinal = Convert.ToDateTime(reader["FechaFinal"]),
-                            IdCurso = Convert.ToString(reader["IdCurso"])
                         };
-
-                        var nota = new NotaModulo()
-                        {
-                            Estudiante = estudiante,
-                            Modulo = modulo,
-                            Nota = Convert.ToInt32(reader["Nota"])
-                        };
-                        Notas.Add(nota);
                     }
                 }
             }
 
-            return Notas;
+            return desglose;
         }
     }
 }

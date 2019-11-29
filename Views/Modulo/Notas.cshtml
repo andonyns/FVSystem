@@ -18,7 +18,7 @@
         <td class="col-md-4">@nota.Modulo.Nombre</td>
         <td class="col-md-4">@nota.Estudiante.Nombre @nota.Estudiante.Apellido</td>
         <td class="col-md-2">@nota.Nota</td>
-        <td class="col-sm"> @Html.ActionLink("Asignar Nota", "Asignar", "Notas", new { id = @nota.Estudiante.Id }, new { miAtributo = "valor1", @class = "btn btn-danger" }) </td>
+        <td class="col-sm"> @Html.ActionLink("Asignar Nota", "Asignar", "Notas", new { estudianteId = @nota.Estudiante.Id, moduloId = @nota.Modulo.Id }, new { miAtributo = "valor1", @class = "btn btn-danger" }) </td>
     </tr>
     }
 

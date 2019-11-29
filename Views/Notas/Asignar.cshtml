@@ -2,6 +2,11 @@
 @{
     ViewData["Title"] = "Asignar";
 }
+@model FVSystem.Models.NotaEstudiante
 
 
-    <h1>@Model.Nombre @Model.Apellido</h1>
+<h1>@Model.Estudiante.Nombre @Model.Estudiante.Apellido</h1>
+
+@Model.Desglose.Asistencia
+
+@Model.Desglose.AsistenciaTotal
