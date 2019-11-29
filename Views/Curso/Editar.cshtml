@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Actualizar";
 }
+@model FVSystem.Models.Curso
 
 @section Styles {
     <link href="~/css/formulario.css" rel="stylesheet" />
@@ -11,8 +12,9 @@
 
     @using (Html.BeginForm("Actualizar", "Curso", FormMethod.Post))
     {
+        @Html.HiddenFor(model => model.Id)
 
-<div>Nombre</div>
+        <div>Nombre</div>
         <input type="text" name="Nombre" value="@Model.Nombre" placeholder="Nombre del curso">
 
         <div>

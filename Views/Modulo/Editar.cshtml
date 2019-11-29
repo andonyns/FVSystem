@@ -13,25 +13,29 @@
 
 
     @using (Html.BeginForm("Actualizar", "Modulo", FormMethod.Post))
-{
+    {
 
-<div>Nombre:</div>
-    <input type="text" name="Nombre" value="@Model.Nombre">
+        @Html.HiddenFor(model => model.Id)
 
-    <div>FechaInicio: </div>
+        <div>Nombre:</div>
 
-    <input type="date" name="FechaInicio" value="@Model.FechaInicio.ToString("yyyy-MM-dd")">
 
-    <div>FechaFinal: </div>
+        <input type="text" name="Nombre" value="@Model.Nombre">
 
-    <input type="date" name="FechaFinal" value="@Model.FechaFinal.ToString("yyyy-MM-dd")">
+        <div>FechaInicio: </div>
 
-    <div>Curso: </div>
+        <input type="date" name="FechaInicio" value="@Model.FechaInicio.ToString("yyyy-MM-dd")">
 
-    <input type="text" name="IdCurso" value="@Model.IdCurso">
+        <div>FechaFinal: </div>
 
-    <input type="submit" value="Guardar">
+        <input type="date" name="FechaFinal" value="@Model.FechaFinal.ToString("yyyy-MM-dd")">
 
-}
+        <div>Curso: </div>
+
+        <input type="text" name="IdCurso" value="@Model.IdCurso">
+
+        <input type="submit" value="Guardar">
+
+    }
 
 </div>
