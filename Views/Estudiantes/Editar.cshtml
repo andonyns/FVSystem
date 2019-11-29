@@ -14,6 +14,8 @@
     @using (Html.BeginForm("Actualizar", "Estudiantes", FormMethod.Post))
     {
 
+        @Html.HiddenFor(model => model.Id)
+
         <div>Nombre:</div>
         <input type="text" name="Nombre" value="@Model.Nombre">
 
