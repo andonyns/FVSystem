@@ -6,17 +6,17 @@
 @section Styles {
     <link href="~/css/formulario.css" rel="stylesheet" />
 }
+<div class="formulario">
+    <h2>Actualizar Curso</h2>
 
-<h2>Actualizar Curso</h2>
+    @using (Html.BeginForm("Actualizar", "Curso", FormMethod.Post))
+    {
 
-@using (Html.BeginForm("Actualizar", "Curso", FormMethod.Post))
-{
-    
-    <p>Nombre</p>
-    <input type="text" name="Nombre" value="@Model.Nombre" placeholder="Nombre del curso">
+<div>Nombre</div>
+        <input type="text" name="Nombre" value="@Model.Nombre" placeholder="Nombre del curso">
 
-    <div>
-        <input type="submit" value="Actualizar Curso">
-    </div>
-}
-
+        <div>
+            <input type="submit" value="Actualizar Curso">
+        </div>
+    }
+</div>

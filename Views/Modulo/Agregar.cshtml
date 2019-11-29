@@ -2,41 +2,42 @@
 @{
     ViewBag.Title = "Modulo";
 }
+    <div class="formulario">
+        <h2>Modulo</h2>
 
-<h2>Modulo</h2>
-
-@section Styles {
-    <link href="~/css/formulario.css" rel="stylesheet" />
-}
-
-
-@using (Html.BeginForm("Guardar", "Modulo", FormMethod.Post))
-{
-
-
-    <div>Nombre:</div>
-
-
-    <input type="text" name="Nombre" value="">
-
-    <div>FechaInicio: </div>
-
-    <input type="date" name="FechaInicio" value="">
-
-    <div>FechaFinal: </div>
-
-    <input type="date" name="FechaFinal" value="">
-
-    <div>Curso: </div>
-
-    <select name="IdCurso">
-        <option value="">Selecione el curso</option>
-
-        @foreach (var curso in Model)
-        {
-            <option value="@curso.Id">@curso.Nombre </option>
+        @section Styles {
+            <link href="~/css/formulario.css" rel="stylesheet" />
         }
-    </select>
 
-    <input type="submit" value="Agregar">
-}
+
+        @using (Html.BeginForm("Guardar", "Modulo", FormMethod.Post))
+        {
+
+
+            <div>Nombre:</div>
+
+
+            <input type="text" name="Nombre" value="">
+
+            <div>FechaInicio: </div>
+
+            <input type="date" name="FechaInicio" value="">
+
+            <div>FechaFinal: </div>
+
+            <input type="date" name="FechaFinal" value="">
+
+            <div>Curso: </div>
+
+            <select name="IdCurso">
+                <option value="">Selecione el curso</option>
+
+                @foreach (var curso in Model)
+                {
+                    <option value="@curso.Id">@curso.Nombre </option>
+                }
+            </select>
+
+            <input type="submit" value="Agregar">
+        }
+    </div>
