@@ -57,7 +57,7 @@ namespace FVSystem.Repository
             using (var connect = new MySqlConnection(configuration.GetConnectionString("DefaultConnection")))
             {
                 connect.Open();
-                using (MySqlCommand command = connect.CreateCommand())
+                using (var command = connect.CreateCommand())
                 {
                     command.CommandText = @"SELECT *" +
                                         "FROM Estudiantes " +
@@ -87,10 +87,10 @@ namespace FVSystem.Repository
         public List<Estudiante> ObtenerEstudiantesPorCurso(string cursoId)
         {
             var estudiantes = new List<Estudiante>();
-            using (MySqlConnection connect = new MySqlConnection(connectionString))
+            using (var connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
-                using (MySqlCommand command = connect.CreateCommand())
+                using (var command = connect.CreateCommand())
                 {
 
                     command.CommandText = @"SELECT E.* " +
@@ -120,12 +120,12 @@ namespace FVSystem.Repository
 
         public bool InsertarEstudiante(Estudiante estudiante)
         {
-            using (MySqlConnection connect = new MySqlConnection(connectionString))
+            using (var connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
 
 
-                using (MySqlCommand command = new MySqlCommand(
+                using (var command = new MySqlCommand(
                                                         "INSERT INTO Estudiantes(Id,Nombre,Apellido,FechaNacimiento,Cedula) " +
                                                         "VALUES(@Id,@Nombre,@Apellido,@FechaNacimiento,@Cedula)", connect))
                 {
@@ -153,12 +153,12 @@ namespace FVSystem.Repository
 
         public bool ActualizarEstudiante(Estudiante estudiante)
         {
-            using (MySqlConnection connect = new MySqlConnection(connectionString))
+            using (var connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
 
 
-                using (MySqlCommand command = new MySqlCommand(
+                using (var command = new MySqlCommand(
                                                         "UPDATE Estudiantes " +
                                                         "SET Nombre = @Nombre, Apellido = @Apellido, FechaNacimiento = @FechaNacimiento, Cedula = @Cedula " +
                                                         "WHERE Id=@Id ", connect))
@@ -187,12 +187,12 @@ namespace FVSystem.Repository
 
         public bool BorrarEstudiante(string id)
         {
-            using (MySqlConnection connect = new MySqlConnection(connectionString))
+            using (var connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
 
 
-                using (MySqlCommand command = new MySqlCommand(
+                using (var command = new MySqlCommand(
                                                         "DELETE FROM Estudiantes " +
                                                         "WHERE Id=@Id ", connect))
                 {
@@ -216,10 +216,10 @@ namespace FVSystem.Repository
         public List<Estudiante> ObtenerEstudiantesCurso(string curso)
         {
             List<Estudiante> estudiantes = new List<Estudiante>();
-            using (MySqlConnection connect = new MySqlConnection(connectionString))
+            using (var connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
-                using (MySqlCommand command = connect.CreateCommand())
+                using (var command = connect.CreateCommand())
                 {
 
                     command.CommandText = @"SELECT E.* " +
