@@ -11,11 +11,14 @@
 @section script {
     <script src="~/js/ConfirmacionBorrarModulo.js"></script>
 }
-<h1>Lista de Modulos</h1>
+
+@model FVSystem.Models.ModulosCurso
+
+<h1>Lista de Modulos para el curso: @Model.Curso.Nombre</h1>
 <table class="col-12">
 
 
-    @foreach (var modulo in Model)
+    @foreach (var modulo in Model.Modulos)
     {
 	
         <tr class="row lista">
@@ -32,6 +35,6 @@
 
 </table>
 
-@Html.ActionLink("Agregar", "Agregar", "Modulo", new { @class = "nav-link" }, new { miAtributo = "valor1", @class = "btn btn-danger" })
+@Html.ActionLink("Agregar", "Agregar", "Modulo", new { cursoId = @Model.Curso.Id }, new { miAtributo = "valor1", @class = "btn btn-danger" })
 
 

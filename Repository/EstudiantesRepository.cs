@@ -139,7 +139,7 @@ namespace FVSystem.Repository
                     {
                         command.ExecuteNonQuery();
                     }
-                    catch (Exception ex)
+                    catch (Exception )
                     {
                         return false;
                     }
@@ -173,7 +173,7 @@ namespace FVSystem.Repository
                     {
                         command.ExecuteNonQuery();
                     }
-                    catch (Exception ex)
+                    catch (Exception )
                     {
                         return false;
                     }
@@ -202,7 +202,7 @@ namespace FVSystem.Repository
                     {
                         command.ExecuteNonQuery();
                     }
-                    catch (Exception ex)
+                    catch (Exception )
                     {
                         return false;
                     }

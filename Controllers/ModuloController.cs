@@ -29,11 +29,11 @@ namespace FVSystem.Controllers
         }
 
         // GET: Modulo
-        public ActionResult Agregar()
+        public ActionResult Agregar(int cursoId)
         {
             var listaCursos = cursosRepository.ObtenerCursos();
 
-            return View(listaCursos);
+            return View(new { ListaCursos = listaCursos, CursoId = cursoId });
         }
 
         public ActionResult Editar(string id)
@@ -81,15 +81,20 @@ namespace FVSystem.Controllers
             return View("Notas", notas);
         }
 
-        public ActionResult VerModulosCurso(int curso)
+        public ActionResult VerModulosCurso(int cursoId)
         {
-            var modulos = repository.ObtenerModulosCurso(curso);
-            if (modulos == null || modulos.Count == 0)
+            var modulosCurso = new ModulosCurso()
+            {
+                Modulos = repository.ObtenerModulosCurso(cursoId),
+                Curso = cursosRepository.ObtenerCurso(cursoId)
+            };
+
+            if (modulosCurso.Modulos == null || modulosCurso.Modulos.Count == 0)
             {
                 ViewBag.ErrorMessage = "No se encontraron modulos";
             }
 
-            return View("Lista", modulos);
+            return View("Lista", modulosCurso);
         }
 
     }

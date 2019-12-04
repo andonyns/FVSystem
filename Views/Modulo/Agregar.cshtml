@@ -2,44 +2,46 @@
 @{
     ViewBag.Title = "Modulo";
 }
-@model IEnumerable<FVSystem.Models.Curso>
+@model FVSystem.Models.ModulosCurso
+<div class="formulario">
+    <h2>Modulo</h2>
 
-    <div class="formulario">
-        <h2>Modulo</h2>
+    @section Styles {
+        <link href="~/css/formulario.css" rel="stylesheet" />
+    }
 
-        @section Styles {
-            <link href="~/css/formulario.css" rel="stylesheet" />
-        }
+    @section script {
+        <script src="~/js/VerificarSeleccionado.js"></script>
+    }
 
-
-        @using (Html.BeginForm("Guardar", "Modulo", FormMethod.Post))
-        {
-
-
-            <div>Nombre:</div>
+    @using (Html.BeginForm("Guardar", "Modulo", FormMethod.Post))
+    {
 
 
-            <input type="text" name="Nombre" value="">
+        <div>Nombre:</div>
 
-            <div>FechaInicio: </div>
 
-            <input type="date" name="FechaInicio" value="">
+        <input type="text" name="Nombre" value="">
 
-            <div>FechaFinal: </div>
+        <div>FechaInicio: </div>
 
-            <input type="date" name="FechaFinal" value="">
+        <input type="date" name="FechaInicio" value="">
 
-            <div>Curso: </div>
+        <div>FechaFinal: </div>
 
-            <select name="IdCurso">
-                <option value="">Selecione el curso</option>
+        <input type="date" name="FechaFinal" value="">
 
-                @foreach (var curso in Model)
-                {
-                    <option value="@curso.Id">@curso.Nombre </option>
-                }
-            </select>
+        <div>Curso: </div>
 
-            <input type="submit" value="Agregar">
-        }
-    </div>
+        <select name="IdCurso">
+            <option value="">Selecione el curso</option>
+
+            @foreach (var curso in Model.ListaCursos)
+            {
+                <option value="@curso.Id" selected="isSelected(@curso.Id, @Model.CursoId)">@curso.Nombre </option>
+            }
+        </select>
+
+        <input type="submit" value="Agregar">
+    }
+</div>
