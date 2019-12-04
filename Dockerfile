@@ -10,11 +10,11 @@ COPY . .
 # publish
 FROM build AS publish
 WORKDIR /app
-RUN dotnet publish -c Release -o /src/publish
+RUN dotnet publish -c Release -o /publish
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.0 AS runtime
 WORKDIR /app
-COPY --from=publish /src/publish .
+COPY --from=publish /publish .
 
 # heroku uses the following
 CMD ASPNETCORE_URLS=http://*:$PORT dotnet FVSystem.dll
