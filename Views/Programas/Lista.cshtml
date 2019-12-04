@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewData["Title"] = "Lista";
+}
+@section Styles {
+    <link href="~/css/programas.css" rel="stylesheet" />
+    <link href="~/css/listas.css" rel="stylesheet" />
+}
+
+
+<h1>Lista de Programas</h1>
+<table class="col-12">
+
+
+    @foreach (var programas in Model)
+    {
+
+        <tr class="row lista">
+            <td class="col-8">@programas.Nombre</td>
+            <td class="col-sm">@Html.ActionLink("Editar", "Editar", "Programas", new { id = programas.Id }, new { miAtributo = "valor1", @class = "btn btn-danger" })</td>
+    
+            <td class="col-sm">
+                <button type="button" class="btn btn-danger" onclick="borrarProgramas(@programas.Id)">
+                    Borrar
+                </button>
+            </td>
+        </tr>
+    }
+
+</table>
+
+@Html.ActionLink("Agregar", "Agregar", "Programas", new { @class = "nav-link" }, new { miAtributo = "valor1", @class = "btn btn-danger" })
+
+
+
+

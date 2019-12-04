@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewData["Title"] = "Programas";
+}
+@model IEnumerable<FVSystem.Models.Curso>
+
+<div class="formulario">
+    <h2>Modulo</h2>
+
+    @section Styles {
+        <link href="~/css/formulario.css" rel="stylesheet" />
+    }
+
+
+    @using (Html.BeginForm("Guardar", "Programas", FormMethod.Post))
+    {
+
+
+        <div>Nombre:</div>
+
+
+        <input type="text" name="Nombre" value="">
+
+        <div>FechaInicio: </div>
+
+        <input type="date" name="FechaInicio" value="">
+
+        <div>FechaFinal: </div>
+
+        <input type="date" name="FechaFinal" value="">
+
+        <div>Programas: </div>
+
+        <select name="IdProgramas">
+            <option value="">Selecione el programa</option>
+
+            @foreach (var programa in Model)
+            {
+                <option value="@programa.Id">@programa.Nombre </option>
+            }
+        </select>
+
+        <input type="submit" value="Agregar">
+    }
+</div>
