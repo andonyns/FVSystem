@@ -34,7 +34,7 @@ namespace FVSystem.Repository
                                             "FROM DesgloseDeNotas dn " +
                                              "INNER JOIN NotasModulos nm " +
                                                "ON dn.IdNota = nm.iD " +
-                                                    "WHERE nm.iD = @IdModulo " +
+                                                    "WHERE nm.IdModulo = @IdModulo " +
                                                     "AND nm.IdEstudiante = @IdEstudiante";
                     command.CommandType = CommandType.Text;
                     command.Parameters.AddWithValue("@IdModulo", moduloId);

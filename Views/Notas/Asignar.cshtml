@@ -4,20 +4,41 @@
 }
 @model FVSystem.Models.NotaEstudiante
 
-
-<h1>@Model.Estudiante.Nombre @Model.Estudiante.Apellido</h1>
-
-@Model.Desglose.Asistencia
-
-@Model.Desglose.AsistenciaTotal
+@section script
+{
+    <script src="~/js/SumarNotas.js"></script>
+}
 
 
-<p>A common form that includes input tags</p>
-<form action="getform.php" method="get">
-    <label>Asistencia <input type="text"></label><br> <p>30</p>
-    <label>Cotidiano <input type="text"></label><br> <p>30</p>
-    <label>Proyecto 1 <input type="text"></label><br> <p>30</p>
-    <label>Proyecto 2 <input type="text"></label><br> <p>30</p>
-    <label>Proyeycto final <input type="text"></label><br> <p>30</p>
-    <input type="submit" value="Submit">
-</form>
+
+
+
+@using (Html.BeginForm("Guardar", "DesgloseDeNotas", FormMethod.Post))
+
+{
+
+    <p><h1>DESGLOSE DE NOTAS</h1></p>
+    <h2>@Model.Estudiante.Nombre @Model.Estudiante.Apellido</h2>
+    <br>
+
+
+
+    <form action="getform.razor" method="get">
+
+        <label>Asistencia:@Model.Desglose.AsistenciaTotal% <input id="asistencia"type="text" value="@Model.Desglose.Asistencia" onKeyUp="SumarAutomatico()"></label><br>
+
+        <label>Cotidiano:@Model.Desglose.CotidianoTotal% <input id="cotidiano" type="text" value="@Model.Desglose.Cotidiano" onKeyUp="SumarAutomatico()"></label><br>
+
+        <label>Proyecto1: @Model.Desglose.Proyecto1Total% <input id="proyecto1" type="text" value="@Model.Desglose.Proyecto1 "  onKeyUp="SumarAutomatico()"></label><br>
+
+        <label>Proyecto2: @Model.Desglose.Proyecto2Total% <input id="proyecto2" type="text" value="@Model.Desglose.Proyecto2 "  onKeyUp="SumarAutomatico()"></label><br>
+
+        <label>Proyecto Final: @Model.Desglose.ProyectoFinalTotal%: <input id="proyectoFinal" type="text" value="@Model.Desglose.ProyectoFinal"  onKeyUp="SumarAutomatico()"></label><br>
+
+        <label>Total: 100%: <input id="notaTotal" type="text"> </label>
+
+        <input type="submit" value="Guardar">
+    </form>
+}
+
+   
