@@ -2,7 +2,7 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS build
 WORKDIR /src
 COPY *.sln .
-COPY FVSystem/*.csproj FVSystem/
+COPY *.csproj FVSystem/
 RUN dotnet restore
 COPY . .
 
