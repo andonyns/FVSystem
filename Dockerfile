@@ -9,11 +9,11 @@ COPY . .
 
 # publish
 FROM build AS publish
-WORKDIR /app
+WORKDIR ./
 RUN dotnet publish -c Release -o /publish
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.0 AS runtime
-WORKDIR /app
+WORKDIR ./
 COPY --from=publish /publish .
 
 # heroku uses the following
