@@ -30,7 +30,7 @@ namespace FVSystem.Controllers
             return View();
         }
 
-        public ActionResult Editar(string Id)
+        public ActionResult Editar(int Id)
         {
             var curso = repository.ObtenerCurso(Id);
 

@@ -4,38 +4,40 @@
 }
 @model FVSystem.Models.Modulo
 
-@section Styles {
-    <link href="~/css/formulario.css" rel="stylesheet" />
-}
-<div class="formulario">
-    <h2>Editar</h2>
+ IEnumerable<FVSystem.Models.Curso>
 
-
-
-    @using (Html.BeginForm("Actualizar", "Modulo", FormMethod.Post))
-    {
-
-        @Html.HiddenFor(model => model.Id)
-
-        <div>Nombre:</div>
-
-
-        <input type="text" name="Nombre" value="@Model.Nombre">
-
-        <div>FechaInicio: </div>
-
-        <input type="date" name="FechaInicio" value="@Model.FechaInicio.ToString("yyyy-MM-dd")">
-
-        <div>FechaFinal: </div>
-
-        <input type="date" name="FechaFinal" value="@Model.FechaFinal.ToString("yyyy-MM-dd")">
-
-        <div>Curso: </div>
-
-        <input type="text" name="IdCurso" value="@Model.IdCurso">
-
-        <input type="submit" value="Guardar">
-
+    @section Styles {
+        <link href="~/css/formulario.css" rel="stylesheet" />
     }
+    <div class="formulario">
+        <h2>Editar</h2>
 
-</div>
+
+
+        @using (Html.BeginForm("Actualizar", "Modulo", FormMethod.Post))
+        {
+
+            @Html.HiddenFor(model => model.Id)
+
+            <div>Nombre:</div>
+
+
+            <input type="text" name="Nombre" value="@Model.Nombre">
+
+            <div>FechaInicio: </div>
+
+            <input type="date" name="FechaInicio" value="@Model.FechaInicio.ToString("yyyy-MM-dd")">
+
+            <div>FechaFinal: </div>
+
+            <input type="date" name="FechaFinal" value="@Model.FechaFinal.ToString("yyyy-MM-dd")">
+
+            <div>Curso: </div>
+
+            <input type="text" name="IdCurso" value="@Model.IdCurso">
+
+            <input type="submit" value="Guardar">
+
+        }
+
+    </div>

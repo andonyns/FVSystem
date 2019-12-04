@@ -74,7 +74,8 @@ namespace FVSystem.Repository
                             Nombre = Convert.ToString(reader["Nombre"]),
                             FechaInicio = Convert.ToDateTime(reader["FechaInicio"]),
                             FechaFinal = Convert.ToDateTime(reader["FechaFinal"]),
-                            IdCurso = Convert.ToString(reader["IdCurso"])
+                            IdCurso = Convert.ToString(reader["IdCurso"]),
+                           
                         };
                     }
                 }
@@ -266,6 +267,9 @@ namespace FVSystem.Repository
             }
             return modulos;
         }
+
+
+
 
     }
 

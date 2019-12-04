@@ -51,7 +51,7 @@ namespace FVSystem.Repository
 
        
 
-        public Curso ObtenerCurso(string nombre)
+        public Curso ObtenerCurso(int id)
         {
             Curso curso = new Curso();
             using (var connect = new MySqlConnection(connectionString))
@@ -62,7 +62,7 @@ namespace FVSystem.Repository
 
                     command.CommandText = @"SELECT * " +
                                         "FROM Cursos " +
-                                        "WHERE Id = " + nombre;
+                                        "WHERE Id = " + id;
 
                     command.CommandType = CommandType.Text;
                     var reader = command.ExecuteReader();
@@ -131,7 +131,7 @@ namespace FVSystem.Repository
                     {
                         command.ExecuteNonQuery();
                     }
-                    catch (Exception ex)
+                    catch (Exception )
                     {
                         return false;
                     }
@@ -160,7 +160,7 @@ namespace FVSystem.Repository
                     {
                         command.ExecuteNonQuery();
                     }
-                    catch (Exception ex)
+                    catch (Exception )
                     {
                         return false;
                     }
@@ -187,7 +187,7 @@ namespace FVSystem.Repository
                     {
                         command.ExecuteNonQuery();
                     }
-                    catch (Exception ex)
+                    catch (Exception )
                     {
                         return false;
                     }

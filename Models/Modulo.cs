@@ -12,5 +12,6 @@ namespace FVSystem.Models
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFinal { get; set; }
         public string IdCurso { get; set; }
+        public string NombreCurso { get; internal set; }
     }
 }
