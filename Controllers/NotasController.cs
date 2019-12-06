@@ -33,5 +33,13 @@ namespace FVSystem.Controllers
 
         }
 
+        public ActionResult ActualizarNotas(DesgloseNotas desgloseNotas)
+        {
+
+            notasRepository.ActualizarNotasEstudiante(desgloseNotas);
+
+            return Redirect("/Notas");
+        }
+
     }
 }

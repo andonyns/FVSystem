@@ -63,5 +63,40 @@ namespace FVSystem.Repository
 
             return desglose;
         }
+        public bool ActualizarNotasEstudiante(DesgloseNotas desgloseDeNotas)
+        {
+            using (var connect = new MySqlConnection(connectionString))
+            {
+                connect.Open();
+
+
+                using (var command = new MySqlCommand(
+                                                        "UPDATE DesgloseDeNotas " +
+                                                        "SET Asistencia = @Asistencia, Cotidiano = @Cotidiano, Proyecto1 = @Proyecto1, Proyecto2 = @Proyecto2, ProyectoFinal= @ProyectoFinal  " +
+                                                        "WHERE IdNota=@IdNota ", connect))
+                {
+
+                    command.Parameters.AddWithValue("@IdNota", desgloseDeNotas.IdNota);
+                    command.Parameters.AddWithValue("@Asistencia", desgloseDeNotas.Asistencia);
+                    command.Parameters.AddWithValue("@Cotidiano", desgloseDeNotas.Cotidiano);
+                    command.Parameters.AddWithValue("@Proyecto1", desgloseDeNotas.Proyecto1);
+                    command.Parameters.AddWithValue("@Proyecto2", desgloseDeNotas.Proyecto2);
+                    command.Parameters.AddWithValue("@ProyectoFinal", desgloseDeNotas.ProyectoFinal);
+   
+                    try
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    catch (Exception)
+                    {
+                        return false;
+                    }
+                }
+                connect.Close();
+            }
+
+            return true;
+
+        }
     }
 }

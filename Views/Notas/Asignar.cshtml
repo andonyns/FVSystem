@@ -13,32 +13,32 @@
 
 
 
-@using (Html.BeginForm("Guardar", "DesgloseDeNotas", FormMethod.Post))
+@using (Html.BeginForm("ActualizarNotas", "Notas", FormMethod.Post))
 
 {
 
-    <p><h1>DESGLOSE DE NOTAS</h1></p>
-    <h2>@Model.Estudiante.Nombre @Model.Estudiante.Apellido</h2>
+    <p>< h1 > DESGLOSE DE NOTAS</ h1 ></p>
+
+    <h2> @Model.Estudiante.Nombre @Model.Estudiante.Apellido </h2>
+
     <br>
-
-
 
     <form action="getform.razor" method="get">
 
-        <label>Asistencia:@Model.Desglose.AsistenciaTotal% <input id="asistencia"type="text" value="@Model.Desglose.Asistencia" onKeyUp="SumarAutomatico()"></label><br>
+        <label>Asistencia:@Model.Desglose.AsistenciaTotal% <input id="asistencia" type="text" value="@Model.Desglose.Asistencia" onKeyUp="SumarAutomatico()"></label><br>
 
         <label>Cotidiano:@Model.Desglose.CotidianoTotal% <input id="cotidiano" type="text" value="@Model.Desglose.Cotidiano" onKeyUp="SumarAutomatico()"></label><br>
 
-        <label>Proyecto1: @Model.Desglose.Proyecto1Total% <input id="proyecto1" type="text" value="@Model.Desglose.Proyecto1 "  onKeyUp="SumarAutomatico()"></label><br>
+        <label>Proyecto1: @Model.Desglose.Proyecto1Total% <input id="proyecto1" type="text" value="@Model.Desglose.Proyecto1 " onKeyUp="SumarAutomatico()"></label><br>
 
-        <label>Proyecto2: @Model.Desglose.Proyecto2Total% <input id="proyecto2" type="text" value="@Model.Desglose.Proyecto2 "  onKeyUp="SumarAutomatico()"></label><br>
+        <label>Proyecto2: @Model.Desglose.Proyecto2Total% <input id="proyecto2" type="text" value="@Model.Desglose.Proyecto2 " onKeyUp="SumarAutomatico()"></label><br>
 
-        <label>Proyecto Final: @Model.Desglose.ProyectoFinalTotal%: <input id="proyectoFinal" type="text" value="@Model.Desglose.ProyectoFinal"  onKeyUp="SumarAutomatico()"></label><br>
+        <label>Proyecto Final: @Model.Desglose.ProyectoFinalTotal%: <input id="proyectoFinal" type="text" value="@Model.Desglose.ProyectoFinal" onKeyUp="SumarAutomatico()"></label><br>
 
         <label>Total: 100%: <input id="notaTotal" type="text"> </label>
 
         <input type="submit" value="Guardar">
     </form>
-}
+    }
 
-   
+    }
