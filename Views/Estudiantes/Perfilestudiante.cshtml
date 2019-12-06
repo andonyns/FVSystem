@@ -6,25 +6,29 @@
     <link href="~/css/estudiantes.css" rel="stylesheet" />
     <link href="~/css/listas.css" rel="stylesheet" />
 }
-<h1>Perfil del estudiante cedula</h1>
+<h1>Perfil del estudiante </h1>
 
 <table class="col-12">
 
 
     <tr class="row lista">
         <td class="col-8">@Model.Nombre @Model.Apellido</td>
-       
+
 
 
 
     </tr>
-  
+
 </table>
-<P>Cedula:5454654545</P>
+<img src="data:image/jpeg;base64,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"
+
+     <p></p>
+<P>Cedula:1-17420355</P>
 <P>fecha de nacimineto:02/02/2002</P>
-<P>telefono:4555544</P>
-<P>telefono de algun familiar:55555</P>
-<P>Direccion al hogar:adchugsfyuyuff</P>
+<P>telefono:87894652</P>
+<P>telefono de algun familiar:84223289</P>
+<P>Direccion al hogar:Del INA de la florida 100 al sur y 200 al este</P>
+
 
 
 
