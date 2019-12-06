@@ -9,8 +9,7 @@ namespace FVSystem.Models
     {
         public Curso Curso { get; set; }
         public List<Modulo> Modulos { get; set; }
-        public List<Curso> ListaCursos { get; set; }
-        public int CursoId { get; set; }
+  
 
     }
     

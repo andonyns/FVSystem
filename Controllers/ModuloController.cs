@@ -31,9 +31,13 @@ namespace FVSystem.Controllers
         // GET: Modulo
         public ActionResult Agregar(int cursoId)
         {
-            var listaCursos = cursosRepository.ObtenerCursos();
+            var listaCursos = new ListaCursosConSeleccion()
+            {
+                IdCursoSeleccionado = cursoId,
+                ListaCursos = cursosRepository.ObtenerCursos()
+            };      
 
-            return View(new { ListaCursos = listaCursos, CursoId = cursoId });
+            return View(listaCursos);
         }
 
         public ActionResult Editar(string id)
