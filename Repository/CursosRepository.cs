@@ -80,7 +80,7 @@ namespace FVSystem.Repository
             return curso;
         }
 
-        public List<Curso> ObtenerCursosSede(int sede)
+        public List<Curso> ObtenerCursosPorPrograma(int programa)
         {
             List<Curso> cursos = new List<Curso>();
             using (var connect = new MySqlConnection(connectionString))
@@ -90,12 +90,12 @@ namespace FVSystem.Repository
                 {
 
                     command.CommandText = @"SELECT c.* " +
-                                         "FROM CursosPorSede cs " +
+                                         "FROM CursosPorPrograma cp " +
                                         "INNER JOIN Cursos c " +
-                                        "ON cs.IdCurso = c.Id "+ 
-                                        "WHERE IdSede = @Id";
+                                        "ON cp.IdCursos = c.Id "+ 
+                                        "WHERE IdProgramas = @Id";
 
-                    command.Parameters.AddWithValue("@Id", sede);
+                    command.Parameters.AddWithValue("@Id", programa);
 
                     command.CommandType = CommandType.Text;
                     var reader = command.ExecuteReader();

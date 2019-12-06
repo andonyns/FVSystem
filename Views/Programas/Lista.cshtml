@@ -15,16 +15,17 @@
     @foreach (var programas in Model)
     {
 
-        <tr class="row lista">
-            <td class="col-8">@programas.Nombre</td>
-            <td class="col-sm">@Html.ActionLink("Editar", "Editar", "Programas", new { id = programas.Id }, new { miAtributo = "valor1", @class = "btn btn-danger" })</td>
-    
-            <td class="col-sm">
-                <button type="button" class="btn btn-danger" onclick="borrarProgramas(@programas.Id)">
-                    Borrar
-                </button>
-            </td>
-        </tr>
+    <tr class="row lista">
+        <td class="col-6">@programas.Nombre</td>
+        <td class="col-sm"> @Html.ActionLink("Cursos", "ObtenerCursosPorPrograma", "Curso", new { programa = programas.Id }, new { miAtributo = "valor1", @class = "btn btn-danger" }) </td>
+        <td class="col-sm">@Html.ActionLink("Editar", "Editar", "Programas", new { id = programas.Id }, new { miAtributo = "valor1", @class = "btn btn-danger" })</td>
+
+        <td class="col-sm">
+            <button type="button" class="btn btn-danger" onclick="borrarProgramas(@programas.Id)">
+                Borrar
+            </button>
+        </td>
+    </tr>
     }
 
 </table>
