@@ -173,6 +173,40 @@ namespace FVSystem.Repository
 
         }
 
-        
+        public List<Programa> ObtenerCursosPorPrograma(int IdProgramas)
+        {
+            List<Programa> cursos = new List<Programa>();
+            using (MySqlConnection connect = new MySqlConnection(connectionString))
+            {
+                connect.Open();
+                using (MySqlCommand command = connect.CreateCommand())
+                {
+
+                    command.CommandText = @"SELECT c.*" +
+                                        "FROM Programas p " +
+                                        "INNER JOIN Programas p " +
+                                        "ON p.IdCursos = cp.IdCursos " +
+                                        "WHERE cp.IdPrograma = @Id";
+                    command.CommandType = CommandType.Text;
+                    command.Parameters.AddWithValue("@Id", IdProgramas);
+
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var Cursos = new Programa()
+                        {
+                            Id = Convert.ToInt32(reader["IdCursos"]),
+                            Nombre = Convert.ToString(reader["NombreDeCursos"]),
+
+                        };
+                        cursos.Add(Cursos);
+                    }
+                }
+            }
+
+            return cursos;
+        }
+
+
     }
 }

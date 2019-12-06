@@ -83,6 +83,17 @@ namespace FVSystem.Controllers
             return View("Lista", programas);
         }
 
+        public ActionResult CursosPorPrograma(int programa)
+        {
+            var cursos = programasRepository.ObtenerCursosPorPrograma(programa);
+            if (cursos == null || cursos.Count == 0)
+            {
+                ViewBag.ErrorMessage = "No se encontraron cursos";
+            }
+
+            return View("Lista", cursos);
+        }
+
 
     }
 }

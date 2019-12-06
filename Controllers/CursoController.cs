@@ -62,7 +62,18 @@ namespace FVSystem.Controllers
 
         public ActionResult CursosPorSede(int sede)
         {
-            var cursos = repository.ObtenerCursosSede(sede);
+            var cursos = repository.ObtenerCursosPorPrograma(sede);
+            if (cursos == null || cursos.Count == 0)
+            {
+                ViewBag.ErrorMessage = "No se encontraron cursos";
+            }
+
+            return View("Lista", cursos);
+        }
+
+        public ActionResult ObtenerCursosPorPrograma(int programa)
+        {
+            var cursos = repository.ObtenerCursosPorPrograma(programa);
             if (cursos == null || cursos.Count == 0)
             {
                 ViewBag.ErrorMessage = "No se encontraron cursos";
