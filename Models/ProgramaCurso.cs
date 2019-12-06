@@ -5,12 +5,11 @@ using System.Threading.Tasks;
 
 namespace FVSystem.Models
 {
-    public class ModulosCurso
+    public class ProgramaCurso
     {
         public Curso Curso { get; set; }
-        public List<Modulo> Modulos { get; set; }
-  
-
+        public List<Curso> Programas { get; set; }
+        public List<Curso> ListaCursos { get; set; }
+        public int IdCursos { get; set; }
     }
-    
 }

@@ -2,46 +2,54 @@
 @{
     ViewBag.Title = "Modulo";
 }
-@model FVSystem.Models.ModulosCurso
-<div class="formulario">
-    <h2>Modulo</h2>
+@model FVSystem.Models.ListaCursosConSeleccion
 
-    @section Styles {
-        <link href="~/css/formulario.css" rel="stylesheet" />
-    }
+    <script>
+    $(document).ready(function () {
+        console.log(@Model.IdCursoSeleccionado);
+        $("#IdCurso").val('@Model.IdCursoSeleccionado');
+    });
+    </script>
 
-    @section script {
-        <script src="~/js/VerificarSeleccionado.js"></script>
-    }
+    <div class="formulario">
+        <h2>Modulo</h2>
 
-    @using (Html.BeginForm("Guardar", "Modulo", FormMethod.Post))
-    {
+        @section Styles {
+            <link href="~/css/formulario.css" rel="stylesheet" />
+        }
+
+        @section script {
+            <script src="~/js/VerificarSeleccionado.js"></script>
+        }
+
+        @using (Html.BeginForm("Guardar", "Modulo", FormMethod.Post))
+        {
 
 
-        <div>Nombre:</div>
+            <div>Nombre:</div>
 
 
-        <input type="text" name="Nombre" value="">
+            <input type="text" name="Nombre" value="">
 
-        <div>FechaInicio: </div>
+            <div>FechaInicio: </div>
 
-        <input type="date" name="FechaInicio" value="">
+            <input type="date" name="FechaInicio" value="">
 
-        <div>FechaFinal: </div>
+            <div>FechaFinal: </div>
 
-        <input type="date" name="FechaFinal" value="">
+            <input type="date" name="FechaFinal" value="">
 
-        <div>Curso: </div>
+            <div>Curso: </div>
 
-        <select name="IdCurso">
-            <option value="">Selecione el curso</option>
+            <select id="IdCurso" name="IdCurso">
+                <option value="">Selecione el curso</option>
 
-            @foreach (var curso in Model.ListaCursos)
-            {
-                <option value="@curso.Id" selected="isSelected(@curso.Id, @Model.CursoId)">@curso.Nombre </option>
-            }
-        </select>
-
-        <input type="submit" value="Agregar">
-    }
-</div>
+                @foreach (var curso in Model.ListaCursos)
+                {
+                    <option value="@curso.Id">@curso.Nombre </option>
+                }
+            </select>
+            @Model.IdCursoSeleccionado
+            <input type="submit" value="Agregar">
+        }
+    </div>
