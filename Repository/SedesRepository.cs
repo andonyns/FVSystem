@@ -51,7 +51,7 @@ namespace FVSystem.Repository
 
         public bool InsertarSede(Sede sede)
         {
-            
+
             using (var connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
