@@ -1,19 +1,19 @@
 # NuGet restore
 FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS build
-WORKDIR ./
-COPY *.sln .
-COPY *.csproj .
+WORKDIR /FVSystem/
+COPY FVSystem/*.sln .
+COPY FVSystem/*.csproj .
 RUN dotnet restore
 COPY . .
 
 
 # publish
 FROM build AS publish
-WORKDIR ./
+WORKDIR ./FVSystem/
 RUN dotnet publish -c Release -o /publish
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.0 AS runtime
-WORKDIR /app
+WORKDIR ./FVSystem/app
 COPY --from=publish /publish .
 
 # heroku uses the following
