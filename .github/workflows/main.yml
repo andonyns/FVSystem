@@ -17,6 +17,6 @@ jobs:
         APP_NAME: ${{ 'fvsystem' }}
         CONNECTION_STRING: ${{ secrets.CONNECTION_STRING }}
       run: |
-        docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com -e $CONNECTION_STRING
-        heroku container:push web -a $APP_NAME
+        docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
+        heroku container:push web -a $APP_NAME -e $CONNECTION_STRING
         heroku container:release web -a $APP_NAME
