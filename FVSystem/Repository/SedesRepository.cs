@@ -18,7 +18,8 @@ namespace FVSystem.Repository
         public SedesRepository(IConfiguration config)
         {
             configuration = config;
-            connectionString = configuration.GetConnectionString("DefaultConnection");
+            //connectionString = configuration.GetConnectionString("DefaultConnection");
+            connectionString = Environment.GetEnvironmentVariable("CONN_STRING");
         }
 
         public List<Sede> GetSedes()
