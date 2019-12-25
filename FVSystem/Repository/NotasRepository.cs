@@ -1,4 +1,5 @@
 ﻿using FVSystem.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System;
@@ -9,17 +10,9 @@ using System.Threading.Tasks;
 
 namespace FVSystem.Repository
 {
-    public class NotasRepository
+    public class NotasRepository : BaseRepository
     {
-
-        private IConfiguration configuration;
-        private string connectionString;
-
-        public NotasRepository(IConfiguration config)
-        {
-            configuration = config;
-            connectionString = configuration.GetConnectionString("DefaultConnection");
-        }
+        public NotasRepository(IConfiguration config, IWebHostEnvironment env) : base(config, env) { }
 
         public DesgloseNotas DesgloseNotasPorModulo(string moduloId, string estudianteId)
         {

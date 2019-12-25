@@ -1,4 +1,5 @@
 ﻿using FVSystem.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System;
@@ -9,16 +10,9 @@ using System.IO;
 
 namespace FVSystem.Repository
 {
-    public class EstudiantesRepository
+    public class EstudiantesRepository : BaseRepository
     {
-        private IConfiguration configuration;
-        private string connectionString;
-
-        public EstudiantesRepository(IConfiguration config)
-        {
-            configuration = config;
-            connectionString = configuration.GetConnectionString("DefaultConnection");
-        }
+        public EstudiantesRepository(IConfiguration config, IWebHostEnvironment env) : base(config, env) { }
 
         public List<Estudiante> ObtenerEstudiantes()
         {
@@ -53,7 +47,7 @@ namespace FVSystem.Repository
         public Estudiante ObtenerEstudiante(string id)
         {
             Estudiante estudiante = new Estudiante();
-            using (var connect = new MySqlConnection(configuration.GetConnectionString("DefaultConnection")))
+            using (var connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
                 using (var command = connect.CreateCommand())

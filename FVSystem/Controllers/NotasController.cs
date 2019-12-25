@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FVSystem.Models;
 using FVSystem.Repository;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -15,10 +16,10 @@ namespace FVSystem.Controllers
         private EstudiantesRepository estudiantesRepository;
         private NotasRepository notasRepository;
 
-        public NotasController(IConfiguration config)
+        public NotasController(IConfiguration config, IWebHostEnvironment env)
         {
-            estudiantesRepository = new EstudiantesRepository(config);
-            notasRepository = new NotasRepository(config);
+            estudiantesRepository = new EstudiantesRepository(config, env);
+            notasRepository = new NotasRepository(config, env);
         }
 
         public IActionResult Asignar(string estudianteId, string moduloId)

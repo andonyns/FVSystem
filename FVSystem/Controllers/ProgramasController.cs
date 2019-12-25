@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FVSystem.Models;
 using FVSystem.Repository;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -14,9 +15,9 @@ namespace FVSystem.Controllers
         private ProgramasRepository programasRepository;
 
 
-        public ProgramasController(IConfiguration config)
+        public ProgramasController(IConfiguration config, IWebHostEnvironment env)
         {
-            programasRepository = new ProgramasRepository(config);
+            programasRepository = new ProgramasRepository(config, env);
 
         }
 

@@ -1,4 +1,5 @@
 ﻿using FVSystem.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System;
@@ -10,17 +11,9 @@ using System.Web;
 namespace FVSystem.Repository
 {
 
-    public class SedesRepository
+    public class SedesRepository : BaseRepository
     {
-        private IConfiguration configuration;
-        private string connectionString;
-
-        public SedesRepository(IConfiguration config)
-        {
-            configuration = config;
-            //connectionString = configuration.GetConnectionString("DefaultConnection");
-            connectionString = Environment.GetEnvironmentVariable("CONN_STRING");
-        }
+        public SedesRepository(IConfiguration config, IWebHostEnvironment env) : base(config, env) {}
 
         public List<Sede> GetSedes()
         {

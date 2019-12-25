@@ -1,4 +1,5 @@
 ﻿using FVSystem.Repository;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -12,9 +13,9 @@ namespace FVSystem.Controllers
     {
         private SedesRepository repository;
 
-        public SedesController(IConfiguration config)
+        public SedesController(IConfiguration config, IWebHostEnvironment env)
         {
-            repository = new SedesRepository(config);
+            repository = new SedesRepository(config, env);
         }
         public IActionResult Index()
         {

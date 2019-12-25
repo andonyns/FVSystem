@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using FVSystem.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Hosting;
 
 namespace FVSystem.Controllers
 {
@@ -12,10 +13,10 @@ namespace FVSystem.Controllers
         private readonly ILogger<CursoController> _logger;
         private CursosRepository repository;
 
-        public CursoController(ILogger<CursoController> logger, IConfiguration config)
+        public CursoController(ILogger<CursoController> logger, IConfiguration config, IWebHostEnvironment env)
         {
             _logger = logger;
-            repository = new CursosRepository(config);
+            repository = new CursosRepository(config, env);
         }
 
         public ActionResult Index()
