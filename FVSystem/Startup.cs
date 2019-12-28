@@ -27,6 +27,14 @@ namespace FVSystem
             services.AddControllersWithViews();
             services.AddSingleton(Configuration);
 
+            services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
+
+                    options.ClientId = Environment.GetEnvironmentVariable("GoogleClientId");
+                    options.ClientSecret = Environment.GetEnvironmentVariable("GoogleClientSecret");
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +54,8 @@ namespace FVSystem
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
