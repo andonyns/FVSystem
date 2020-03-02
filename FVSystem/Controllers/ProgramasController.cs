@@ -49,7 +49,7 @@ namespace FVSystem.Controllers
         {
             programasRepository.InsertarPrograma(programa, sede);
 
-            return Redirect("/Programas/Obtener?sede="+sede);
+            return Redirect("/Programas/Obtener?sede=" + sede);
         }
 
         public ActionResult Actualizar(Programa programa)

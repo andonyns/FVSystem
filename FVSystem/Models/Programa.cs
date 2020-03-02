@@ -9,8 +9,5 @@ namespace FVSystem.Models
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
-        public DateTime FechaInicio { get; set; }
-        public DateTime FechaFinal { get; set; }
-        public string IdProgramas { get; set; }
     }
 }
