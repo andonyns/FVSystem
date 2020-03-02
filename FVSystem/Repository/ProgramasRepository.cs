@@ -14,35 +14,7 @@ namespace FVSystem.Repository
     {
         public ProgramasRepository(IConfiguration config, IWebHostEnvironment env) : base(config, env) { }
 
-        public List<Programa> ObtenerProgramas()
-        {
-
-            List<Programa> programas = new List<Programa>();
-            using (var connect = new MySqlConnection(connectionString))
-            {
-                connect.Open();
-                using (var command = connect.CreateCommand())
-                {
-
-                    command.CommandText = @"SELECT * " +
-                                        "FROM Programas";
-                    command.CommandType = CommandType.Text;
-                    MySqlDataReader reader = command.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        programas.Add(new Programa()
-                        {
-                            Id = Convert.ToInt32(reader["Id"]),
-                            Nombre = Convert.ToString(reader["Nombre"]),
-                            
-                        });
-                    }
-                }
-            }
-            return programas;
-        }
-
-        public List<Programa> ObtenerProgramasPorSede(int sedeId)
+        public List<Programa> ObtenerProgramas(int sedeId)
         {
             List<Programa> programas = new List<Programa>();
             using (MySqlConnection connect = new MySqlConnection(connectionString))
@@ -54,7 +26,7 @@ namespace FVSystem.Repository
                     command.CommandText = @"SELECT p.*" +
                                         "FROM Programas p " +
                                         "INNER JOIN ProgramasPorSede ps " +
-                                        "ON p.IdProgramas = ps.IdProgramas " +
+                                        "ON p.Id = ps.IdPrograma " +
                                         "WHERE ps.IdSede = @Id";
                     command.CommandType = CommandType.Text;
                     command.Parameters.AddWithValue("@Id", sedeId);
@@ -64,8 +36,8 @@ namespace FVSystem.Repository
                     {
                         var programa = new Programa()
                         {
-                            Id = Convert.ToInt32(reader["IdProgramas"]),
-                            Nombre = Convert.ToString(reader["NombreDeProgramas"]),
+                            Id = Convert.ToInt32(reader["Id"]),
+                            Nombre = Convert.ToString(reader["Nombre"]),
                             
                         };
                         programas.Add(programa);
@@ -76,20 +48,41 @@ namespace FVSystem.Repository
             return programas;
         }
 
-        public bool InsertarProgramas(Programa programas)
+        public bool InsertarPrograma(Programa programa, int sede)
         {
+            int idPrograma = 0;
             using (MySqlConnection connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
 
 
                 using (MySqlCommand command = new MySqlCommand(
-                                                        "INSERT INTO Programas(Id,Nombre,FechaInicio,FechaFinal,IdCurso) " +
-                                                        "VALUES(@Id,@Nombre,@FechaInicio,@FechaFinal,@IdCurso )", connect))
+                                                        "INSERT INTO Programas(Nombre) " +
+                                                        "VALUES(@Nombre)", connect))
                 {
-                    command.Parameters.AddWithValue("@Id", programas.Id);
-                    command.Parameters.AddWithValue("@Nombre", programas.Nombre);
+                    command.Parameters.AddWithValue("@Nombre", programa.Nombre);
                     
+                    try
+                    {
+                        var result = command.ExecuteNonQuery();
+                        idPrograma = Convert.ToInt32(command.LastInsertedId);
+                    }
+                    catch (Exception)
+                    {
+                        return false;
+                    }
+                }
+
+                using (MySqlCommand command = new MySqlCommand(
+                                                        "INSERT INTO ProgramasPorSede(IdPrograma,IdSede) " +
+                                                        "VALUES(@IdPrograma,@IdSede)", connect))
+                {
+                    if (idPrograma == 0) {
+                        return false;
+                    }
+                    command.Parameters.AddWithValue("@IdPrograma", idPrograma);
+                    command.Parameters.AddWithValue("@IdSede", sede);
+
                     try
                     {
                         command.ExecuteNonQuery();
@@ -99,6 +92,7 @@ namespace FVSystem.Repository
                         return false;
                     }
                 }
+
                 connect.Close();
             }
 
@@ -169,7 +163,7 @@ namespace FVSystem.Repository
 
         }
 
-        public List<Programa> ObtenerCursosPorPrograma(int IdProgramas)
+        public List<Programa> ObtenerCursosPorPrograma(int id)
         {
             List<Programa> cursos = new List<Programa>();
             using (MySqlConnection connect = new MySqlConnection(connectionString))
@@ -184,7 +178,7 @@ namespace FVSystem.Repository
                                         "ON p.IdCursos = cp.IdCursos " +
                                         "WHERE cp.IdPrograma = @Id";
                     command.CommandType = CommandType.Text;
-                    command.Parameters.AddWithValue("@Id", IdProgramas);
+                    command.Parameters.AddWithValue("@Id", id);
 
                     MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())

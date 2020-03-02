@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FVSystem.Models;
 using FVSystem.Repository;
+using FVSystem.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -12,8 +13,7 @@ namespace FVSystem.Controllers
 {
     public class ProgramasController : Controller
     {
-        private ProgramasRepository programasRepository;
-
+        private readonly ProgramasRepository programasRepository;
 
         public ProgramasController(IConfiguration config, IWebHostEnvironment env)
         {
@@ -21,23 +21,21 @@ namespace FVSystem.Controllers
 
         }
 
-        public IActionResult Index()
+        public ActionResult Obtener(int sede)
         {
-            var programas = programasRepository.ObtenerProgramas();
+            var programas = programasRepository.ObtenerProgramas(sede);
             if (programas == null || programas.Count == 0)
             {
                 ViewBag.ErrorMessage = "No se encontraron programas";
             }
 
-            return View("Lista", programas);
+            return View("Lista", new ProgramasSede { Programas = programas, Sede = sede });
         }
 
-        // GET: Programas
-        public ActionResult Agregar()
-        {
-            var listaProgramas = programasRepository.ObtenerProgramas();
 
-            return View(listaProgramas);
+        public ActionResult Agregar(int sede)
+        {
+            return View(sede);
         }
 
         public ActionResult Editar(string id)
@@ -47,11 +45,11 @@ namespace FVSystem.Controllers
             return View();
         }
 
-        public ActionResult Guardar(Programa programa)
+        public ActionResult Guardar(Programa programa, int sede)
         {
-            //programasRepository.InsertarProgramas(programa);
+            programasRepository.InsertarPrograma(programa, sede);
 
-            return Redirect("/Programas");
+            return Redirect("/Programas/Obtener?sede="+sede);
         }
 
         public ActionResult Actualizar(Programa programa)
@@ -71,17 +69,6 @@ namespace FVSystem.Controllers
             programasRepository.BorrarProgramas(id);
 
             return Ok();
-        }
-
-        public ActionResult ProgramasPorSede(int sede)
-        {
-            var programas = programasRepository.ObtenerProgramasPorSede(sede);
-            if (programas == null || programas.Count == 0)
-            {
-                ViewBag.ErrorMessage = "No se encontraron cursos";
-            }
-
-            return View("Lista", programas);
         }
 
         public ActionResult CursosPorPrograma(int programa)

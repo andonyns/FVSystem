@@ -6,13 +6,13 @@
     <link href="~/css/programas.css" rel="stylesheet" />
     <link href="~/css/listas.css" rel="stylesheet" />
 }
-
+@model FVSystem.ViewModels.ProgramasSede;
 
 <h1>Lista de Programas</h1>
 <table class="col-12">
 
 
-    @foreach (var programas in Model)
+    @foreach (var programas in Model.Programas)
     {
 
     <tr class="row lista">
@@ -30,7 +30,7 @@
 
 </table>
 
-@Html.ActionLink("Agregar", "Agregar", "Programas", new { @class = "nav-link" }, new { miAtributo = "valor1", @class = "btn btn-danger" })
+@Html.ActionLink("Agregar", "Agregar", "Programas", new { sede = Model.Sede }, new { @class = "btn btn-danger" })
 
 
 
