@@ -32,10 +32,11 @@ namespace FVSystem.Controllers
         // GET: Modulo
         public ActionResult Agregar(int cursoId)
         {
+            // Revisar
             var listaCursos = new ListaCursosConSeleccion()
             {
                 IdCursoSeleccionado = cursoId,
-                ListaCursos = cursosRepository.ObtenerCursos()
+                ListaCursos = cursosRepository.ObtenerCursos(cursoId)
             };      
 
             return View(listaCursos);

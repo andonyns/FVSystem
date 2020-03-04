@@ -5,36 +5,38 @@
 
 @section Styles {
     <link href="~/css/cursos.css" rel="stylesheet" />
-	<link href="~/css/listas.css" rel="stylesheet" />
+    <link href="~/css/listas.css" rel="stylesheet" />
 }
 
 @section script {
     <script src="~/js/BorrarCursos.js"></script>
 }
+@model FVSystem.ViewModels.CursosPrograma;
+
 <h2>Lista de Cursos</h2>
 
 <table class="col-12">
 
 
-    @foreach (var curso in Model)
+    @foreach (var curso in Model.Cursos)
     {
-    <tr class="row lista">
-        <td class="col-6">    @curso.Id - @curso.Nombre </td>
-        <td class="col-2"> @Html.ActionLink("Ver modulos", "VerModulosCurso", "Modulo", new { cursoId = curso.Id}, new { miAtributo = "valor1", @class = "btn btn-danger" })</td>
-        <td class="col-2"> @Html.ActionLink("Ver estudiantes", "EstudiantesPorCurso", "Estudiantes", new { id = curso.Id }, new { miAtributo = "valor1", @class = "btn btn-danger" })</td>
-        <td class="col-1"> @Html.ActionLink("Editar", "Editar", "Curso", new { id = curso.Id }, new { miAtributo = "valor1", @class = "btn btn-danger" }) </td>
-        <td class="col-1">
+        <tr class="row lista">
+            <td class="col-6">    @curso.Id - @curso.Nombre </td>
+            <td class="col-2"> @Html.ActionLink("Ver modulos", "VerModulosCurso", "Modulo", new { cursoId = curso.Id }, new { miAtributo = "valor1", @class = "btn btn-danger" })</td>
+            <td class="col-2"> @Html.ActionLink("Ver estudiantes", "EstudiantesPorCurso", "Estudiantes", new { id = curso.Id }, new { miAtributo = "valor1", @class = "btn btn-danger" })</td>
+            <td class="col-1"> @Html.ActionLink("Editar", "Editar", "Curso", new { id = curso.Id }, new { miAtributo = "valor1", @class = "btn btn-danger" }) </td>
+            <td class="col-1">
                 <button type="button" class="btn btn-danger" onclick="BorrarCurso(@curso.Id)">
                     Borrar
                 </button>
             </td>
 
-    </tr>
+        </tr>
     }
 
 </table>
 
 <div class="boton">
-    @Html.ActionLink("Agregar nuevo curso", "Agregar", "Curso", null, new { miAtributo = "valor1", @class = "btn btn-danger" })
+    @Html.ActionLink("Agregar nuevo curso", "Agregar", "Curso", new { programa = Model.Programa }, new { @class = "btn btn-danger" })
 </div>
 

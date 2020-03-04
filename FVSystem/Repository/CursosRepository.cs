@@ -15,7 +15,7 @@ namespace FVSystem.Repository
     {
         public CursosRepository(IConfiguration config, IWebHostEnvironment env) : base(config, env) { }
 
-        public List<Curso> ObtenerCursos()
+        public List<Curso> ObtenerCursos(int programa)
         {
             List<Curso> cursos = new List<Curso>();
             using (var connect = new MySqlConnection(connectionString))
@@ -24,8 +24,14 @@ namespace FVSystem.Repository
                 using (var command = connect.CreateCommand())
                 {
 
-                    command.CommandText = @"SELECT *" +
-                                        "FROM Cursos";
+                    command.CommandText = @"SELECT c.* " +
+                                         "FROM CursosPorPrograma cp " +
+                                        "INNER JOIN Cursos c " +
+                                        "ON cp.IdCursos = c.Id " +
+                                        "WHERE IdProgramas = @Id";
+
+                    command.Parameters.AddWithValue("@Id", programa);
+
                     command.CommandType = CommandType.Text;
                     var reader = command.ExecuteReader();
                     while (reader.Read())
@@ -42,7 +48,7 @@ namespace FVSystem.Repository
             return cursos;
         }
 
-       
+
 
         public Curso ObtenerCurso(int id)
         {
@@ -73,42 +79,9 @@ namespace FVSystem.Repository
             return curso;
         }
 
-        public List<Curso> ObtenerCursosPorPrograma(int programa)
+        public bool InsertarCurso(string nombre, int programa)
         {
-            List<Curso> cursos = new List<Curso>();
-            using (var connect = new MySqlConnection(connectionString))
-            {
-                connect.Open();
-                using (var command = connect.CreateCommand())
-                {
-
-                    command.CommandText = @"SELECT c.* " +
-                                         "FROM CursosPorPrograma cp " +
-                                        "INNER JOIN Cursos c " +
-                                        "ON cp.IdCursos = c.Id "+ 
-                                        "WHERE IdProgramas = @Id";
-
-                    command.Parameters.AddWithValue("@Id", programa);
-
-                    command.CommandType = CommandType.Text;
-                    var reader = command.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        cursos.Add(new Curso()
-                        {
-                            Id = Convert.ToInt32(reader["Id"]),
-                            Nombre = Convert.ToString(reader["Nombre"])
-
-                        });
-                    }
-                }
-            }
-            return cursos;
-        }
-       
-
-        public bool InsertarCurso(string nombre)
-        {
+            int idCurso = 0;
             using (var connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
@@ -117,20 +90,44 @@ namespace FVSystem.Repository
                                                         "INSERT INTO Cursos(Nombre) " +
                                                         "VALUES(@Nombre)", connect))
                 {
-                    
+
                     command.Parameters.AddWithValue("@Nombre", nombre);
 
                     try
                     {
                         command.ExecuteNonQuery();
+                        idCurso = Convert.ToInt32(command.LastInsertedId);
                     }
-                    catch (Exception )
+                    catch (Exception)
                     {
                         return false;
                     }
                 }
+
+                using (MySqlCommand command = new MySqlCommand(
+                                                        "INSERT INTO CursosPorPrograma(IdCursos, IdProgramas) " +
+                                                        "VALUES(@IdCurso,@IdPrograma)", connect))
+                {
+                    if (idCurso == 0)
+                    {
+                        return false;
+                    }
+                    command.Parameters.AddWithValue("@IdCurso", idCurso);
+                    command.Parameters.AddWithValue("@IdPrograma", programa);
+
+                    try
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    catch (Exception)
+                    {
+                        return false;
+                    }
+                }
+
                 connect.Close();
             }
+
 
             return true;
 
@@ -153,7 +150,7 @@ namespace FVSystem.Repository
                     {
                         command.ExecuteNonQuery();
                     }
-                    catch (Exception )
+                    catch (Exception)
                     {
                         return false;
                     }
@@ -180,7 +177,7 @@ namespace FVSystem.Repository
                     {
                         command.ExecuteNonQuery();
                     }
-                    catch (Exception )
+                    catch (Exception)
                     {
                         return false;
                     }

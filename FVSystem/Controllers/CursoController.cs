@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using FVSystem.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
+using FVSystem.ViewModels;
 
 namespace FVSystem.Controllers
 {
@@ -19,16 +20,20 @@ namespace FVSystem.Controllers
             repository = new CursosRepository(config, env);
         }
 
-        public ActionResult Index()
+        public ActionResult Obtener(int programa)
         {
-            var cursos = repository.ObtenerCursos();
+            var cursos = repository.ObtenerCursos(programa);
+            if (cursos == null || cursos.Count == 0)
+            {
+                ViewBag.ErrorMessage = "No se encontraron cursos";
+            }
 
-            return View("Lista", cursos);
+            return View("Lista", new CursosPrograma { Cursos = cursos, Programa = programa });
         }
 
-        public ActionResult Agregar()
+        public ActionResult Agregar(int programa)
         {
-            return View();
+            return View(programa);
         }
 
         public ActionResult Editar(int Id)
@@ -39,9 +44,9 @@ namespace FVSystem.Controllers
         }
 
         [HttpPost]
-        public ActionResult Guardar(string nombre)
+        public ActionResult Guardar(string nombre, int programa)
         {
-            var cursos = repository.InsertarCurso(nombre);
+            var cursos = repository.InsertarCurso(nombre, programa);
 
             return Redirect("/Curso");
         }
@@ -59,28 +64,6 @@ namespace FVSystem.Controllers
             var cursos = repository.EliminarCurso(curso);
 
             return Ok();
-        }
-
-        public ActionResult CursosPorSede(int sede)
-        {
-            var cursos = repository.ObtenerCursosPorPrograma(sede);
-            if (cursos == null || cursos.Count == 0)
-            {
-                ViewBag.ErrorMessage = "No se encontraron cursos";
-            }
-
-            return View("Lista", cursos);
-        }
-
-        public ActionResult ObtenerCursosPorPrograma(int programa)
-        {
-            var cursos = repository.ObtenerCursosPorPrograma(programa);
-            if (cursos == null || cursos.Count == 0)
-            {
-                ViewBag.ErrorMessage = "No se encontraron cursos";
-            }
-
-            return View("Lista", cursos);
         }
 
 
