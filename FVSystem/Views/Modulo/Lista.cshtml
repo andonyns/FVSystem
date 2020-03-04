@@ -20,16 +20,16 @@
 
     @foreach (var modulo in Model.Modulos)
     {
-	
+
         <tr class="row lista">
             <td class="col-8">@modulo.Nombre</td>
-            <td class="col-sm">@Html.ActionLink("Editar", "Editar", "Modulo", new { id = @modulo.Id }, new { miAtributo = "valor1", @class = "btn btn-danger" })</td>
-            <td class="col-sm">@Html.ActionLink("Ver Notas", "ObtenerNota", "Modulo", new { moduloId = @modulo.Id }, new { miAtributo = "valor1", @class = "btn btn-danger" })</td>
-            <td class="col-sm">
-                <button type="button" class="btn btn-danger" onclick="borrarModulo(@modulo.Id)">
-                    Borrar
-                </button>
-            </td>
+            @*<td class="col-sm">@Html.ActionLink("Editar", "Editar", "Modulo", new { id = @modulo.Id }, new { miAtributo = "valor1", @class = "btn btn-danger" })</td>*@
+            <td class="col-sm">@Html.ActionLink("Ver Notas", "ObtenerNota", "Modulo", new { moduloId = @modulo.Id }, new { @class = "btn btn-danger" })</td>
+            @*<td class="col-sm">
+                    <button type="button" class="btn btn-danger" onclick="borrarModulo(@modulo.Id)">
+                        Borrar
+                    </button>
+                </td>*@
         </tr>
     }
 

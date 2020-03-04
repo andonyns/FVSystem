@@ -48,7 +48,7 @@ namespace FVSystem.Controllers
         {
             var cursos = repository.InsertarCurso(nombre, programa);
 
-            return Redirect("/Curso");
+            return Redirect("/Curso/Obtener?programa=" + programa);
         }
 
         public ActionResult Actualizar(Curso curso)

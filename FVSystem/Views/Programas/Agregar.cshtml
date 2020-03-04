@@ -3,13 +3,12 @@
     ViewData["Title"] = "Programas";
 }
 
+@section Styles {
+    <link href="~/css/formulario.css" rel="stylesheet" />
+}
+
 <div class="formulario">
     <h2>Nuevo Programa</h2>
-
-    @section Styles {
-        <link href="~/css/formulario.css" rel="stylesheet" />
-    }
-
 
     @using (Html.BeginForm("Guardar", "Programas", new { sede = Model }, FormMethod.Post))
     {

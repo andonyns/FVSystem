@@ -6,9 +6,9 @@
 @section Styles {
     <link href="~/css/formulario.css" rel="stylesheet" />
 }
+
 <div class="formulario">
     <h2>Nuevo Curso</h2>
-
 
     @using (Html.BeginForm("Guardar", "Curso", new { programa = Model }, FormMethod.Post))
     {
