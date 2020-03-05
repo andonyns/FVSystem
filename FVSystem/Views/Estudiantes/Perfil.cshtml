@@ -6,6 +6,8 @@
     <link href="~/css/estudiantes.css" rel="stylesheet" />
     <link href="~/css/listas.css" rel="stylesheet" />
 }
+@model FVSystem.Models.Estudiante
+
 <h1>Perfil del estudiante </h1>
 
 <table class="col-12">
@@ -13,18 +15,14 @@
 
     <tr class="row lista">
         <td class="col-8">@Model.Nombre @Model.Apellido</td>
-
-
-
-
     </tr>
 
 </table>
 <img src="~/img/person.jpg" width="200" height="200" alt="Josep" />
 
-<P>Cédula: 1-17420355</P>
-<P>Fecha de Nacimiento:02/02/2002</P>
-<P>Teléfono: 87894652</P>
+<P>Cédula: @Model.Cedula</P>
+<P>Fecha de Nacimiento: @Model.FechaNacimiento</P>
+<P>Teléfono: 82134564</P>
 <P>Teléfono de Encargado: 84223289</P>
 <p>Nombre del Encargado </p>
 <P>Dirección del hogar: Del INA de la florida 100 al sur y 200 al este</P>

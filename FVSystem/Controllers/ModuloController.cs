@@ -18,15 +18,20 @@ namespace FVSystem.Controllers
             cursosRepository = new CursosRepository(config, env);
         }
 
-        public ActionResult Index()
+        public ActionResult Obtener(int cursoId)
         {
-            var modulos = repository.ObtenerModulos();
-            if (modulos == null || modulos.Count == 0)
+            var modulosCurso = new ModulosCurso()
+            {
+                Modulos = repository.ObtenerModulos(cursoId),
+                Curso = cursosRepository.ObtenerCurso(cursoId)
+            };
+
+            if (modulosCurso.Modulos == null || modulosCurso.Modulos.Count == 0)
             {
                 ViewBag.ErrorMessage = "No se encontraron modulos";
             }
 
-            return View("Lista", modulos);
+            return View("Lista", modulosCurso);
         }
 
         // GET: Modulo
@@ -37,7 +42,7 @@ namespace FVSystem.Controllers
             {
                 IdCursoSeleccionado = cursoId,
                 ListaCursos = cursosRepository.ObtenerCursos(cursoId)
-            };      
+            };
 
             return View(listaCursos);
         }
@@ -85,22 +90,6 @@ namespace FVSystem.Controllers
             }
 
             return View("Notas", notas);
-        }
-
-        public ActionResult VerModulosCurso(int cursoId)
-        {
-            var modulosCurso = new ModulosCurso()
-            {
-                Modulos = repository.ObtenerModulosCurso(cursoId),
-                Curso = cursosRepository.ObtenerCurso(cursoId)
-            };
-
-            if (modulosCurso.Modulos == null || modulosCurso.Modulos.Count == 0)
-            {
-                ViewBag.ErrorMessage = "No se encontraron modulos";
-            }
-
-            return View("Lista", modulosCurso);
         }
 
     }

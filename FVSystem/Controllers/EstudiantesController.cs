@@ -35,9 +35,9 @@ namespace FVSystem.Controllers
             return View(estudiante);
         }
 
-        public ActionResult Guardar(Estudiante newEstudiante)
+        public ActionResult Guardar(Estudiante nuevoEstudiante)
         {
-            repository.InsertarEstudiante(newEstudiante);
+            repository.InsertarEstudiante(nuevoEstudiante);
 
             return Redirect("/Estudiantes");
         }
@@ -69,7 +69,7 @@ namespace FVSystem.Controllers
 
             return View("Lista", estudiantes);
         }
-        public ActionResult PerfilEstudiante(string id)
+        public ActionResult Perfil(string id)
         {
             var estudiante = repository.ObtenerEstudiante(id);
 

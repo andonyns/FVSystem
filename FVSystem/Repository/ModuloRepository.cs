@@ -15,18 +15,23 @@ namespace FVSystem.Repository
     {
         public ModuloRepository(IConfiguration config, IWebHostEnvironment env) : base(config, env) { }
 
-        public List<Modulo> ObtenerModulos()
+        public List<Modulo> ObtenerModulos(int curso)
         {
-
             List<Modulo> modulos = new List<Modulo>();
-            using (var connect = new MySqlConnection(connectionString))
+            using (MySqlConnection connect = new MySqlConnection(connectionString))
             {
                 connect.Open();
-                using (var command = connect.CreateCommand())
+                using (MySqlCommand command = connect.CreateCommand())
                 {
 
-                    command.CommandText = @"SELECT * " +
-                                        "FROM Modulos";
+                    command.CommandText = @"SELECT m.* " +
+                                         "FROM Cursos c " +
+                                        "INNER JOIN Modulos m " +
+                                        "ON m.IdCurso = c.Id " +
+                                        "WHERE IdCurso = @Id";
+
+                    command.Parameters.AddWithValue("@Id", curso);
+
                     command.CommandType = CommandType.Text;
                     MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
@@ -34,10 +39,8 @@ namespace FVSystem.Repository
                         modulos.Add(new Modulo()
                         {
                             Id = Convert.ToInt32(reader["Id"]),
-                            Nombre = Convert.ToString(reader["Nombre"]),
-                            FechaInicio = Convert.ToDateTime(reader["FechaInicio"]),
-                            FechaFinal = Convert.ToDateTime(reader["FechaFinal"]),
-                            IdCurso = Convert.ToString(reader["IdCurso"])
+                            Nombre = Convert.ToString(reader["Nombre"])
+
                         });
                     }
                 }
@@ -230,38 +233,7 @@ namespace FVSystem.Repository
             return Notas;
         }
 
-        public List<Modulo> ObtenerModulosCurso(int curso)
-        {
-            List<Modulo> modulos = new List<Modulo>();
-            using (MySqlConnection connect = new MySqlConnection(connectionString))
-            {
-                connect.Open();
-                using (MySqlCommand command = connect.CreateCommand())
-                {
-
-                    command.CommandText = @"SELECT m.* " +
-                                         "FROM Cursos c " +
-                                        "INNER JOIN Modulos m " +
-                                        "ON m.IdCurso = c.Id " +
-                                        "WHERE IdCurso = @Id";
-
-                    command.Parameters.AddWithValue("@Id", curso);
-
-                    command.CommandType = CommandType.Text;
-                    MySqlDataReader reader = command.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        modulos.Add(new Modulo()
-                        {
-                            Id = Convert.ToInt32(reader["Id"]),
-                            Nombre = Convert.ToString(reader["Nombre"])
-
-                        });
-                    }
-                }
-            }
-            return modulos;
-        }
+        
 
 
 
