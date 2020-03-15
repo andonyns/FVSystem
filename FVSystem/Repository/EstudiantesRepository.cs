@@ -77,7 +77,7 @@ namespace FVSystem.Repository
             return estudiante;
         }
 
-        public List<Estudiante> ObtenerEstudiantesPorCurso(string cursoId)
+        public List<Estudiante> ObtenerEstudiantesPorCurso(string curso)
         {
             var estudiantes = new List<Estudiante>();
             using (var connect = new MySqlConnection(connectionString))
@@ -91,7 +91,7 @@ namespace FVSystem.Repository
                                        " INNER JOIN EstudiantesCurso AS EC" +
                                        "ON E.Id=EC.IdEstudiante" +
                                         "WHERE EC.IdCurso=1";
-                    command.Parameters.AddWithValue("@Id", cursoId);
+                    command.Parameters.AddWithValue("@Id", curso);
                     command.CommandType = CommandType.Text;
                     MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())

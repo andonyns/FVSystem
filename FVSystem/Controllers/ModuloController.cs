@@ -18,12 +18,12 @@ namespace FVSystem.Controllers
             cursosRepository = new CursosRepository(config, env);
         }
 
-        public ActionResult Obtener(int cursoId)
+        public ActionResult Obtener(int curso)
         {
             var modulosCurso = new ModulosCurso()
             {
-                Modulos = repository.ObtenerModulos(cursoId),
-                Curso = cursosRepository.ObtenerCurso(cursoId)
+                Modulos = repository.ObtenerModulos(curso),
+                Curso = cursosRepository.ObtenerCurso(curso)
             };
 
             if (modulosCurso.Modulos == null || modulosCurso.Modulos.Count == 0)
@@ -34,17 +34,9 @@ namespace FVSystem.Controllers
             return View("Lista", modulosCurso);
         }
 
-        // GET: Modulo
-        public ActionResult Agregar(int cursoId)
+        public ActionResult Agregar(int curso)
         {
-            // Revisar
-            var listaCursos = new ListaCursosConSeleccion()
-            {
-                IdCursoSeleccionado = cursoId,
-                ListaCursos = cursosRepository.ObtenerCursos(cursoId)
-            };
-
-            return View(listaCursos);
+            return View(curso);
         }
 
         public ActionResult Editar(string id)
@@ -54,11 +46,11 @@ namespace FVSystem.Controllers
             return View(modulo);
         }
 
-        public ActionResult Guardar(Modulo modulo)
+        public ActionResult Guardar(Modulo modulo, int curso)
         {
-            repository.InsertarModulos(modulo);
+            repository.InsertarModulos(modulo, curso);
 
-            return Redirect("/Modulo");
+            return Redirect("/Modulo/Obtener?curso=" + curso);
         }
 
         public ActionResult Actualizar(Modulo modulo)

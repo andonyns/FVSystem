@@ -2,54 +2,32 @@
 @{
     ViewBag.Title = "Modulo";
 }
-@model FVSystem.Models.ListaCursosConSeleccion
 
-    <script>
-    $(document).ready(function () {
-        console.log(@Model.IdCursoSeleccionado);
-        $("#IdCurso").val('@Model.IdCursoSeleccionado');
-    });
-    </script>
+<div class="formulario">
+    <h2>Modulo</h2>
 
-    <div class="formulario">
-        <h2>Modulo</h2>
+    @section Styles {
+        <link href="~/css/formulario.css" rel="stylesheet" />
+    }
 
-        @section Styles {
-            <link href="~/css/formulario.css" rel="stylesheet" />
-        }
+    @section script {
+        <script src="~/js/VerificarSeleccionado.js"></script>
+    }
 
-        @section script {
-            <script src="~/js/VerificarSeleccionado.js"></script>
-        }
+    @using (Html.BeginForm("Guardar", "Modulo", new { curso = Model }, FormMethod.Post))
+    {
+        <div>Nombre:</div>
 
-        @using (Html.BeginForm("Guardar", "Modulo", FormMethod.Post))
-        {
+        <input type="text" name="Nombre" value="">
 
+        <div>FechaInicio: </div>
 
-            <div>Nombre:</div>
+        <input type="date" name="FechaInicio" value="">
 
+        <div>FechaFinal: </div>
 
-            <input type="text" name="Nombre" value="">
+        <input type="date" name="FechaFinal" value="">
 
-            <div>FechaInicio: </div>
-
-            <input type="date" name="FechaInicio" value="">
-
-            <div>FechaFinal: </div>
-
-            <input type="date" name="FechaFinal" value="">
-
-            <div>Curso: </div>
-
-            <select id="IdCurso" name="IdCurso">
-                <option value="">Selecione el curso</option>
-
-                @foreach (var curso in Model.ListaCursos)
-                {
-                    <option value="@curso.Id">@curso.Nombre </option>
-                }
-            </select>
-            @Model.IdCursoSeleccionado
-            <input type="submit" value="Agregar">
-        }
-    </div>
+        <input type="submit" value="Agregar">
+    }
+</div>

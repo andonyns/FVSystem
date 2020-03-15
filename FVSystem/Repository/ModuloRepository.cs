@@ -49,7 +49,7 @@ namespace FVSystem.Repository
         }
 
         public Modulo ObtenerModulo(string id)
-        {    
+        {
             Modulo modulo = new Modulo();
             using (MySqlConnection connect = new MySqlConnection(connectionString))
             {
@@ -73,7 +73,7 @@ namespace FVSystem.Repository
                             FechaInicio = Convert.ToDateTime(reader["FechaInicio"]),
                             FechaFinal = Convert.ToDateTime(reader["FechaFinal"]),
                             IdCurso = Convert.ToString(reader["IdCurso"]),
-                           
+
                         };
                     }
                 }
@@ -82,7 +82,7 @@ namespace FVSystem.Repository
             return modulo;
         }
 
-        public bool InsertarModulos(Modulo modulo)
+        public bool InsertarModulos(Modulo modulo, int curso)
         {
             using (MySqlConnection connect = new MySqlConnection(connectionString))
             {
@@ -90,14 +90,14 @@ namespace FVSystem.Repository
 
 
                 using (MySqlCommand command = new MySqlCommand(
-                                                        "INSERT INTO Modulos(Id,Nombre,FechaInicio,FechaFinal,IdCurso) " +
-                                                        "VALUES(@Id,@Nombre,@FechaInicio,@FechaFinal,@IdCurso )", connect))
+                                                        "INSERT INTO Modulos(Nombre,FechaInicio,FechaFinal,IdCurso) " +
+                                                        "VALUES(@Nombre,@FechaInicio,@FechaFinal,@IdCurso )", connect))
                 {
                     command.Parameters.AddWithValue("@Id", modulo.Id);
                     command.Parameters.AddWithValue("@Nombre", modulo.Nombre);
                     command.Parameters.AddWithValue("@FechaInicio", modulo.FechaInicio);
                     command.Parameters.AddWithValue("@FechaFinal", modulo.FechaFinal);
-                    command.Parameters.AddWithValue("@IdCurso", modulo.IdCurso);
+                    command.Parameters.AddWithValue("@IdCurso", curso);
                     try
                     {
                         command.ExecuteNonQuery();
@@ -132,6 +132,7 @@ namespace FVSystem.Repository
                     command.Parameters.AddWithValue("@FechaInicio", modulo.FechaInicio);
                     command.Parameters.AddWithValue("@FechaFinal", modulo.FechaFinal);
                     command.Parameters.AddWithValue("@IdCurso", modulo.IdCurso);
+
                     try
                     {
                         command.ExecuteNonQuery();
@@ -162,7 +163,7 @@ namespace FVSystem.Repository
                                                         "WHERE Id= @Id", connect))
                 {
                     command.Parameters.AddWithValue("@Id", id);
-                   
+
                     try
                     {
                         command.ExecuteNonQuery();
@@ -189,11 +190,11 @@ namespace FVSystem.Repository
                 {
 
                     command.CommandText = @"SELECT e.*, m.Id as IdModulo, m.Nombre as NombreModulo, m.FechaInicio, m.FechaFinal, m.IdCurso, nm.Nota " +
-                                            "From Estudiantes e "+
-                                            "INNER JOIN NotasModulos nm "+
-                                            "INNER JOIN Modulos m "+
-                                            "Where e.Id = nm.IdEstudiante "+
-                                            "AND nm.IdModulo = m.Id "+
+                                            "From Estudiantes e " +
+                                            "INNER JOIN NotasModulos nm " +
+                                            "INNER JOIN Modulos m " +
+                                            "Where e.Id = nm.IdEstudiante " +
+                                            "AND nm.IdModulo = m.Id " +
                                             "AND nm.IdModulo = @Id";
                     command.CommandType = CommandType.Text;
                     command.Parameters.AddWithValue("@Id", moduloId);
@@ -232,12 +233,5 @@ namespace FVSystem.Repository
 
             return Notas;
         }
-
-        
-
-
-
-
     }
-
 }

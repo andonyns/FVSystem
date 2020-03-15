@@ -22,7 +22,7 @@
     {
         <tr class="row lista">
             <td class="col-6">    @curso.Id - @curso.Nombre </td>
-            <td class="col-2"> @Html.ActionLink("Ver modulos", "Obtener", "Modulo", new { cursoId = curso.Id }, new { miAtributo = "valor1", @class = "btn btn-danger" })</td>
+            <td class="col-2"> @Html.ActionLink("Ver modulos", "Obtener", "Modulo", new { curso = curso.Id }, new { miAtributo = "valor1", @class = "btn btn-danger" })</td>
             <td class="col-2"> @Html.ActionLink("Ver estudiantes", "EstudiantesPorCurso", "Estudiantes", new { id = curso.Id }, new { miAtributo = "valor1", @class = "btn btn-danger" })</td>
             @*<td class="col-1"> @Html.ActionLink("Editar", "Editar", "Curso", new { id = curso.Id }, new { miAtributo = "valor1", @class = "btn btn-danger" }) </td>*@
             @*<td class="col-1">
